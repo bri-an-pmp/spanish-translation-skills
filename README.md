@@ -56,6 +56,25 @@ The exit code is 1 when there are errors, so a CI job can block a release on bro
 - **Checker:** `python3 -m unittest discover -s tests` runs the tests on every push ([workflow](.github/workflows/test.yml)). The sample files contain deliberate mistakes, and each one must be caught.
 - **Skills:** [`plugins/spanish-translation/evals/`](plugins/spanish-translation/evals/) holds six Claude Code eval cases: a notarial power of attorney, SaaS UI strings, a B2B email, a string-file QA with six planted bugs, an RAE question, and a French question that should *not* trigger the skills. Each case is graded by rules (placeholders kept, the right skill used) and by an AI judge with a written rubric, and it runs both with and without the plugin to show the difference. To run them: `claude plugin eval plugins/spanish-translation`. This uses your Claude plan.
 
+### Results (October 26, 2026)
+
+Each case ran 3 times with the skills and 3 times with plain Claude (Claude Code 2.1.310, graded by Sonnet). "Passed" means every check in the case passed; "score" is the share of checks passed.
+
+| Case | With the skills | Plain Claude |
+|---|---|---|
+| RAE question: *¿pienso de que?* | **3/3 passed** | 0/3 passed |
+| Mexican power of attorney → certified English | **3/3 passed** | 1/3 passed (score 83%) |
+| SaaS UI strings, 25-character buttons | **3/3 passed** | 2/3 passed (score 93%) |
+| B2B renewal email → Colombian client | 2/3 passed (score 92%) | 2/3 passed (score 92%) |
+| QA of a string file with 6 planted bugs | 3/3 passed | 3/3 passed |
+| French question (skills must stay quiet) | 3/3 passed | 3/3 passed |
+
+What this shows:
+- The skills help most where a fact has to be checked (the RAE question) and with specialized conventions (notarial terms of art, developer terminology).
+- For an everyday business email, plain Claude is already about as good.
+- The 6-bug string file was small enough that plain Claude caught everything too. The script matters more on large files, where reading every line by eye misses things.
+- An early version of the test graded each translation with one long all-or-nothing rubric and failed translations that were actually good. Splitting the rubric into one question per requirement fixed that.
+
 ## Limits
 
 - These skills produce a draft and a review. They don't replace a certified translator's signature, and the translator's certification block leaves the name blank on purpose.
@@ -107,6 +126,21 @@ Lee JSON, `.strings` y `.xcstrings` de Apple, `strings.xml` de Android, `.po` de
 
 - **Verificador:** `python3 -m unittest discover -s tests` ejecuta las pruebas con cada cambio. Los archivos de ejemplo contienen errores a propósito, y cada uno debe detectarse.
 - **Skills:** [`plugins/spanish-translation/evals/`](plugins/spanish-translation/evals/) contiene seis casos de evaluación: un poder notarial, *strings* de una interfaz SaaS, un correo empresarial, una revisión de un archivo de *strings* con seis errores sembrados, una consulta sobre la RAE y una pregunta sobre francés que *no* debe activar las *skills*. Cada caso se califica con reglas (por ejemplo, que se conserven las variables) y con un juez de IA que sigue una rúbrica escrita. Además, se ejecuta con y sin el *plugin* para medir la diferencia. Para ejecutarlos: `claude plugin eval plugins/spanish-translation`. Esto consume el uso de su plan de Claude.
+
+### Resultados (26 de octubre de 2026)
+
+Cada caso se ejecutó 3 veces con las *skills* y 3 veces con Claude sin ellas; la calificación la hizo Sonnet.
+
+| Caso | Con las skills | Claude sin skills |
+|---|---|---|
+| Consulta RAE: *¿pienso de que?* | **3/3 aprobados** | 0/3 aprobados |
+| Poder notarial mexicano → traducción certificada al inglés | **3/3 aprobados** | 1/3 aprobados (83 %) |
+| *Strings* de una interfaz SaaS, botones de 25 caracteres | **3/3 aprobados** | 2/3 aprobados (93 %) |
+| Correo de renovación para un cliente colombiano | 2/3 aprobados (92 %) | 2/3 aprobados (92 %) |
+| Revisión de un archivo de *strings* con 6 errores sembrados | 3/3 aprobados | 3/3 aprobados |
+| Pregunta sobre francés (las *skills* no deben activarse) | 3/3 aprobados | 3/3 aprobados |
+
+Las *skills* ayudan más cuando hay que comprobar un dato (la consulta a la RAE) y con convenciones especializadas (términos notariales, terminología para desarrolladores). En un correo empresarial común, Claude sin *skills* ya rinde casi igual.
 
 ### Límites
 

@@ -1,6 +1,6 @@
 ---
 max_turns: 10
-allowed_tools: [Read, Glob, Grep, Skill]
+allowed_tools: [Read, Glob, Grep, Skill, Bash]
 ---
 
 Localize these UI strings for our B2B SaaS product to neutral Latin American Spanish. The product is a developer platform for managing API integrations — clinical, formal brand voice (think Stripe, not Mailchimp). Audience is engineering managers and senior devs. Preserve all placeholders. Button labels and confirmation titles should fit in roughly the same character budget as English (max 25 chars for buttons).

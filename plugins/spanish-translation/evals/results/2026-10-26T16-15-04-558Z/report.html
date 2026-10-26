@@ -1,0 +1,1531 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Eval report — spanish-translation v1.0.0</title>
+</head>
+<body>
+<style>
+:root{--plane:#f9f9f7;--surface:#fcfcfb;--ink:#0b0b0b;--ink-2:#52514e;--ink-3:#6b6a64;--hairline:rgba(11,11,11,.10);--grid:#e1e0d9;--inset:rgba(11,11,11,.04);--accent:#2a78d6;--base-fill:#6b6a64;--delta-good:#006300;--good:#067d06;--warning:#8a6100;--critical:#d03b3b;
+  color-scheme:light dark;
+}
+@media (prefers-color-scheme:dark){:root{--plane:#0d0d0d;--surface:#1a1a19;--ink:#ffffff;--ink-2:#c3c2b7;--ink-3:#898781;--hairline:rgba(255,255,255,.10);--grid:#2c2c2a;--inset:rgba(255,255,255,.05);--accent:#3987e5;--base-fill:#898781;--delta-good:#0ca30c;--good:#0ca30c;--warning:#fab219;--critical:#e06c6c;color-scheme:dark}}
+:root[data-theme="dark"]{--plane:#0d0d0d;--surface:#1a1a19;--ink:#ffffff;--ink-2:#c3c2b7;--ink-3:#898781;--hairline:rgba(255,255,255,.10);--grid:#2c2c2a;--inset:rgba(255,255,255,.05);--accent:#3987e5;--base-fill:#898781;--delta-good:#0ca30c;--good:#0ca30c;--warning:#fab219;--critical:#e06c6c;color-scheme:dark}
+:root[data-theme="light"]{--plane:#f9f9f7;--surface:#fcfcfb;--ink:#0b0b0b;--ink-2:#52514e;--ink-3:#6b6a64;--hairline:rgba(11,11,11,.10);--grid:#e1e0d9;--inset:rgba(11,11,11,.04);--accent:#2a78d6;--base-fill:#6b6a64;--delta-good:#006300;--good:#067d06;--warning:#8a6100;--critical:#d03b3b;color-scheme:light}
+*{box-sizing:border-box}
+body{margin:0;background:var(--plane);color:var(--ink);
+  font:14px/1.55 system-ui,-apple-system,"Segoe UI",sans-serif;
+  -webkit-text-size-adjust:100%}
+.wrap{max-width:880px;margin:0 auto;padding:40px 24px 64px;display:flex;flex-direction:column;gap:20px}
+.eyebrow{font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3)}
+header h1{margin:2px 0 0;font-size:24px;font-weight:600;line-height:1.25;text-wrap:balance}
+.meta{display:flex;flex-wrap:wrap;gap:6px 14px;margin-top:8px;color:var(--ink-2);font-size:13px}
+.meta .num{font-variant-numeric:tabular-nums lining-nums}
+.banner{display:flex;align-items:center;gap:8px;padding:10px 14px;border-radius:8px;
+  border:1px solid var(--hairline);background:var(--surface);font-size:13px}
+.banner .chip-warn{color:var(--warning);font-weight:600}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.tile{background:var(--surface);border:1px solid var(--hairline);border-radius:10px;padding:14px 16px;
+  display:flex;flex-direction:column;gap:4px}
+.tile .label{font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3)}
+.tile .value{font-size:26px;font-weight:600;font-variant-numeric:tabular-nums lining-nums;line-height:1.1}
+.tile.hero .value{font-family:Georgia,"Times New Roman",serif;font-weight:400;font-size:48px}
+.tile .sub{font-size:12px;color:var(--ink-2);font-variant-numeric:tabular-nums}
+.tile .value.delta-pos{color:var(--delta-good)}
+.tile .value.delta-neg{color:var(--critical)}
+.toolbar{display:flex;gap:8px;justify-content:flex-end}
+.toolbar button{font:12px system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--ink-2);
+  background:var(--surface);border:1px solid var(--hairline);border-radius:6px;padding:4px 10px;cursor:pointer}
+.toolbar button:hover{color:var(--ink)}
+.toolbar button:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+.case{background:var(--surface);border:1px solid var(--hairline);border-radius:10px;padding:18px 20px;
+  display:flex;flex-direction:column;gap:10px}
+.case-regressed{border-left:3px solid var(--critical)}
+.verdict{margin:6px 0 0;font-size:15px}
+.verdict .delta{font-size:15px}
+.flag{font-size:11px;font-weight:600;color:var(--warning);white-space:nowrap}
+.star{color:var(--warning);font-size:.45em;vertical-align:super;line-height:0;cursor:help}
+.legend summary{cursor:pointer;font-size:12px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--ink-2)}
+.legend-list{margin:8px 0 0;padding-left:20px;display:flex;flex-direction:column;gap:5px;font-size:13px;color:var(--ink-2)}
+.case-head{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.case-head h2{margin:0;font-size:16px;font-weight:600}
+.case-head .spacer{flex:1}
+.case-score{font-size:15px;font-weight:600}
+.mono{font:12px "SF Mono",ui-monospace,Menlo,Consolas,monospace}
+.num{font-variant-numeric:tabular-nums lining-nums}
+.muted{color:var(--ink-3);font-size:12px}
+.meter{display:inline-block;position:relative;width:120px;height:6px;border-radius:4px;background:var(--grid);
+  vertical-align:middle}
+.meter>span{display:block;height:100%;border-radius:4px;max-width:100%}
+.meter .tick{position:absolute;top:-2px;bottom:-2px;width:2px;background:var(--ink-3);border-radius:1px}
+.m-accent>span{background:var(--accent)}
+.m-base>span{background:var(--base-fill)}
+.delta{font-size:12px;font-weight:600;font-variant-numeric:tabular-nums}
+.delta-pos{color:var(--delta-good)}
+.delta-neg{color:var(--critical)}
+.delta-zero{color:var(--ink-3)}
+details.section{border-top:1px solid var(--grid);padding-top:10px}
+details.section>summary{cursor:pointer;font-size:12px;font-weight:600;letter-spacing:.04em;
+  text-transform:uppercase;color:var(--ink-2);list-style-position:outside;margin-left:2px}
+details.section>summary:hover{color:var(--ink)}
+details.section[open]>summary{margin-bottom:8px}
+.md{display:flex;flex-direction:column;gap:8px;background:var(--inset);border-radius:8px;
+  padding:12px 14px;overflow-wrap:break-word}
+.md>:first-child{margin-top:0}
+.md h1,.md h2,.md h3,.md h4,.md h5,.md h6{margin:4px 0 0;font-size:1em;font-weight:600;line-height:1.3}
+.md p,.md ul,.md ol,.md blockquote,.md table,.md pre,.md hr{margin:0}
+.md ul,.md ol{display:flex;flex-direction:column;gap:4px;padding-left:20px}
+.md blockquote{border-left:2px solid var(--hairline);padding-left:10px;color:var(--ink-2)}
+.md :not(pre)>code{background:var(--inset);padding:1px 4px;border-radius:4px;
+  font:.92em "SF Mono",ui-monospace,Menlo,Consolas,monospace}
+.md pre{background:var(--inset);border:1px solid var(--hairline);padding:10px 12px;border-radius:6px;
+  overflow-x:auto;font:12px/1.5 "SF Mono",ui-monospace,Menlo,Consolas,monospace}
+.md pre code{background:none;padding:0;font:inherit}
+.md table{width:100%;border-collapse:collapse}
+.md th,.md td{padding:5px 8px;text-align:left;vertical-align:top;border-bottom:1px solid var(--grid)}
+.md th{font-weight:600;color:var(--ink-2)}
+.md a{color:var(--accent);text-decoration:none}
+.md a:hover{text-decoration:underline}
+.grader-def{display:flex;flex-direction:column;gap:6px;padding:8px 0}
+.grader-def+.grader-def{border-top:1px solid var(--grid)}
+.grader-def-head{display:flex;align-items:baseline;gap:8px}
+.grader-name{font:13px "SF Mono",ui-monospace,Menlo,Consolas,monospace;font-weight:600}
+.badge{font-size:10px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--ink-2);
+  border:1px solid var(--hairline);border-radius:999px;padding:1px 8px}
+.config{display:flex;flex-direction:column;gap:2px;background:var(--inset);border-radius:8px;padding:10px 14px}
+.config code{font:12px "SF Mono",ui-monospace,Menlo,Consolas,monospace;overflow-wrap:anywhere}
+.arm{display:flex;flex-direction:column;gap:8px;padding:6px 0}
+.arm+.arm{border-top:1px dashed var(--grid);margin-top:4px;padding-top:12px}
+.arm-head{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.arm-label{font-size:13px;font-weight:600}
+.run{border:1px solid var(--grid);border-radius:8px;padding:10px 12px;display:flex;flex-direction:column;gap:8px}
+.run-head{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.run-title{font-size:12px;font-weight:600;color:var(--ink-2)}
+.run-error .explanation{color:var(--ink-2)}
+.note{font-size:12px;color:var(--ink-2)}
+.graders{display:flex;flex-direction:column;gap:4px}
+details.grader{border-radius:6px}
+details.grader>summary{cursor:pointer;display:flex;align-items:baseline;gap:8px;padding:3px 4px;
+  border-radius:6px;list-style:none}
+details.grader>summary::-webkit-details-marker{display:none}
+details.grader>summary::before{content:'▸';font-size:10px;color:var(--ink-3);flex:none;
+  transition:transform .12s ease}
+details.grader[open]>summary::before{transform:rotate(90deg)}
+details.grader>summary:hover{background:var(--inset)}
+details.grader>summary:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+.grader-body{padding:6px 8px 8px 24px;display:flex;flex-direction:column;gap:6px}
+.chip{font-size:11px;font-weight:600;border-radius:999px;padding:1px 8px;white-space:nowrap}
+.chip-pass{color:var(--good);border:1px solid currentColor}
+.chip-fail{color:var(--critical);border:1px solid currentColor}
+.chip.chip-warn{color:var(--warning);border:1px solid currentColor}
+.explanation{margin:0;font-size:13px;color:var(--ink-2);white-space:pre-wrap;overflow-wrap:break-word}
+.kv{display:flex;gap:8px;font-size:12px;color:var(--ink-3)}
+.votes{font-variant-numeric:tabular-nums;letter-spacing:.1em}
+pre.evidence{margin:0;background:var(--inset);border:1px solid var(--hairline);border-radius:6px;
+  padding:8px 10px;overflow-x:auto;max-height:320px;
+  font:12px/1.5 "SF Mono",ui-monospace,Menlo,Consolas,monospace;white-space:pre-wrap;overflow-wrap:break-word}
+footer{color:var(--ink-3);font-size:12px;text-align:center;padding-top:8px}
+@media (prefers-reduced-motion:no-preference){
+  details.grader>summary,.toolbar button{transition:background .12s ease,color .12s ease}
+}
+@media (prefers-reduced-motion:reduce){
+  details.grader>summary::before{transition:none}
+}
+@media print{
+  :root,:root[data-theme="dark"],:root[data-theme="light"]{--plane:#f9f9f7;--surface:#fcfcfb;--ink:#0b0b0b;--ink-2:#52514e;--ink-3:#6b6a64;--hairline:rgba(11,11,11,.10);--grid:#e1e0d9;--inset:rgba(11,11,11,.04);--accent:#2a78d6;--base-fill:#6b6a64;--delta-good:#006300;--good:#067d06;--warning:#8a6100;--critical:#d03b3b;color-scheme:light}
+  body{background:#fff}
+  .toolbar{display:none}
+  .case,.run,.grader-def{break-inside:avoid}
+  pre.evidence{max-height:none}
+}
+</style>
+<div class="wrap">
+<header>
+<div class="eyebrow">Plugin eval report</div>
+<h1>spanish-translation v1.0.0</h1>
+<p class="verdict">Plugin effect: <span class="delta delta-zero">· 0.0 pts</span> vs baseline — improved 0 · flat 1 · regressed 0 of 1 case.</p>
+<div class="meta">
+<span class="mono">.</span>
+<span>Claude Code v2.1.310</span>
+<span class="num">2026-10-26 16:15 UTC</span>
+<span class="num">1m 27s</span>
+<span class="num">$1.28</span>
+<span class="num">6 runs</span>
+<span class="num">3 in flight</span>
+
+
+<span>judge sonnet</span>
+<span class="num">threshold 100%</span>
+<span>filtered: --case renewal-email-en-to-es-latam</span>
+</div>
+</header>
+
+<section class="tiles">
+<div class="tile hero"><span class="label">Suite score · with plugin</span><span class="value">91.7%</span><span class="sub">mean of per-case scores</span></div>
+<div class="tile"><span class="label">Ablation Δ</span><span class="value num delta-zero">0.0</span><span class="sub">score points vs baseline, 1 of 1 case</span></div>
+<div class="tile"><span class="label">Baseline score</span><span class="value num">91.7%</span><span class="sub">without the plugin</span></div>
+<div class="tile"><span class="label">Cases</span><span class="value num">1</span><span class="sub">0 of 1 ≥ 100% threshold</span></div>
+<div class="tile"><span class="label">Perfect runs</span><span class="value num">66.7%</span><span class="sub">runs where every grader passed</span></div>
+</section>
+<details class="section legend">
+<summary>How to read this report</summary>
+<ul class="legend-list">
+<li>A run's score is the weighted fraction of its graders that passed; a "perfect" run passed every grader.</li>
+<li>A case's score is the mean of its runs; a case passes when its score is at or above the 100% threshold (the tick on each case bar).</li>
+<li>The suite score is the mean of the per-case scores.</li>
+<li>Judge votes are independent samples of the LLM judge; the majority decides pass or fail.</li>
+<li>"With plugin" and "Baseline" runs are identical except for the plugin being loaded; Δ is the with-plugin score minus the baseline score.</li>
+
+</ul>
+</details>
+<div class="toolbar"><button type="button" data-act="expand">Expand all</button><button type="button" data-act="collapse">Collapse all</button></div>
+<article class="case" id="case-1">
+<div class="case-head">
+<h2>renewal-email-en-to-es-latam</h2>
+<span class="muted mono">evals/renewal-email-en-to-es-latam</span>
+<span class="spacer"></span>
+
+<span class="delta delta-zero">· 0.0 pts</span>
+<span class="muted">with plugin</span>
+<span class="meter m-accent" aria-hidden="true"><span style="width:91.7%"></span><i class="tick" style="left:100.0%"></i></span>
+<span class="num case-score">91.7%</span>
+</div>
+
+<details class="section" open>
+<summary>Results</summary>
+<section class="arm">
+<div class="arm-head">
+<span class="arm-label">With plugin</span>
+<span class="meter m-accent" aria-hidden="true"><span style="width:91.7%"></span></span>
+<span class="num">91.7%</span>
+<span class="muted num">66.7% of runs perfect</span>
+</div>
+<div class="run">
+<div class="run-head">
+<span class="run-title">Run 1</span>
+<span class="meter m-accent" aria-hidden="true"><span style="width:100.0%"></span></span>
+<span class="num">100%</span>
+<span class="muted num">4 turns · $0.30 · 16:15:04 UTC</span>
+</div>
+
+<div class="graders"><details class="grader">
+<summary><span class="chip chip-pass">✓ pass</span> <span class="grader-name">faithful</span>  </summary>
+<div class="grader-body">
+<p class="explanation">judge votes: PASS PASS PASS</p>
+<div class="kv"><span>Judge votes</span><span class="votes">✓ ✓ ✓</span></div><div class="kv"><span>Evidence (what the judge was shown; for an image, a description of what was sent)</span></div><pre class="evidence"># Translation: Customer success renewal email (EN → ES)
+
+## Register &amp; audience analysis
+This is a B2B customer success email to a senior executive (Director of Operations) at a paying enterprise client in Colombia. I used **usted** throughout. Colombian business culture leans formal, and *usted* is safe even in a warm relationship. The English is friendly but businesslike (&quot;Hi Andrés&quot;, &quot;Happy to comp you&quot;). I kept that warmth but raised the formality slightly, since a $180K renewal shouldn&apos;t read as casual. The Spanish is neutral Latin American and natural for Colombian readers.
+
+## Translation
+
+**Asunto:** Renovación de su contrato: una propuesta breve
+
+Buenos días, Andrés:
+
+Espero que se encuentre muy bien. Quise escribirle personalmente porque su contrato con nosotros se renueva el 15 de junio y, a partir de las conversaciones que nuestros equipos han sostenido durante el último trimestre, considero que existe una oportunidad significativa para ampliar nuestra alianza.
+
+Hay tres puntos que quisiera plantearle:
+
+1. Su equipo ha impulsado un aumento del 40 % en el volumen de llamadas a la API durante los últimos seis meses, muy por encima de lo que admite su nivel actual. Convendría migrar su cuenta a un nivel superior antes de que alcancen el límite.
+
+2. El nuevo panel de analítica que lanzamos en el primer trimestre no está incluido en su plan, pero su equipo de operaciones le sacaría un gran provecho. Con gusto le ofrecemos una prueba de cortesía de 90 días como parte de la renovación.
+
+3. Me gustaría asegurarle su tarifa actual por usuario durante dos años más, antes de que entre en vigor el aumento de precios en septiembre.
+
+¿Podría dedicarnos 20 minutos la próxima semana para revisar esto juntos? Tengo disponibilidad de martes a jueves.
+
+Quedo a la espera de su respuesta.
+
+Cordialmente,
+
+Claire Bennett
+Senior Account Executive, Customer Success
+
+## Glossary of key terms
+
+| Source | Target | Notes |
+|---|---|---|
+| renewal | renovación | Standard term |
+| partnership | alianza | Better than *asociación*, which can sound legal or corporate |
+| API call volume | volumen de llamadas a la API | &quot;API&quot; stays in English, as is standard in LatAm tech |
+| tier | nivel | Kept separate from &quot;plan&quot;, as in the source |
+| plan | plan | — |
+| analytics dashboard | panel de analítica | *Dashboard* is also common in Colombian SaaS; *panel* is more polished |
+| comp (a trial) | prueba de cortesía | Says the trial is a goodwill gesture, which a plain &quot;free trial&quot; would lose |
+| per-seat rate | tarifa por usuario | *Por puesto* would be a calque; *por licencia* also works |
+| lock in | asegurarle | Means &quot;secure it for you&quot;; *congelar* is an option if you want to stress a price freeze |
+
+## Translator&apos;s notes
+
+1. **&quot;Hi Andrés,&quot; → &quot;Buenos días, Andrés:&quot;**: A literal &quot;Hola Andrés&quot; is too casual for this relationship. &quot;Estimado Andrés:&quot; is the other standard option. &quot;Buenos días&quot; is very common in Colombian business email. It&apos;s also gender-neutral, so the email works without me assuming anything from the name. The colon after the greeting is standard in Spanish letters.
+2. **&quot;Looking forward to it.&quot; → &quot;Quedo a la espera de su respuesta.&quot;**: This is the usual formal sign-off. I didn&apos;t use &quot;Quedo atenta/atento&quot; because it&apos;s gendered and would assume Claire&apos;s gender.
+3. **Signature title kept in English**: English job titles are common in LatAm SaaS. If you want it in Spanish, it would be *Ejecutiva de Cuentas Sénior* or *Ejecutivo de Cuentas Sénior*, depending on how Claire refers to herself.
+4. **&quot;We should level you up before you hit the ceiling&quot;**: This is informal English, so I rewrote it more formally as &quot;Convendría migrar su cuenta a un nivel superior antes de que alcancen el límite.&quot; The meaning is the same: upgrade before they hit the cap.
+5. **&quot;40 %&quot;**: I added a space before the % sign, following RAE style. &quot;40%&quot; without the space is also common in Colombia, so either is fine.
+6. **Date check**: Today is October 26, 2026. &quot;June 15th&quot; and &quot;September&quot; don&apos;t state a year, and &quot;Q1&quot; may need checking too. The September price increase should still be in the future, and it should land after the June renewal. Adding years (for example, &quot;15 de junio de 2027&quot;) would avoid any ambiguity.</pre>
+</div>
+</details>
+<details class="grader">
+<summary><span class="chip chip-pass">✓ pass</span> <span class="grader-name">natural</span>  </summary>
+<div class="grader-body">
+<p class="explanation">judge votes: PASS PASS PASS</p>
+<div class="kv"><span>Judge votes</span><span class="votes">✓ ✓ ✓</span></div><div class="kv"><span>Evidence (what the judge was shown; for an image, a description of what was sent)</span></div><pre class="evidence"># Translation: Customer success renewal email (EN → ES)
+
+## Register &amp; audience analysis
+This is a B2B customer success email to a senior executive (Director of Operations) at a paying enterprise client in Colombia. I used **usted** throughout. Colombian business culture leans formal, and *usted* is safe even in a warm relationship. The English is friendly but businesslike (&quot;Hi Andrés&quot;, &quot;Happy to comp you&quot;). I kept that warmth but raised the formality slightly, since a $180K renewal shouldn&apos;t read as casual. The Spanish is neutral Latin American and natural for Colombian readers.
+
+## Translation
+
+**Asunto:** Renovación de su contrato: una propuesta breve
+
+Buenos días, Andrés:
+
+Espero que se encuentre muy bien. Quise escribirle personalmente porque su contrato con nosotros se renueva el 15 de junio y, a partir de las conversaciones que nuestros equipos han sostenido durante el último trimestre, considero que existe una oportunidad significativa para ampliar nuestra alianza.
+
+Hay tres puntos que quisiera plantearle:
+
+1. Su equipo ha impulsado un aumento del 40 % en el volumen de llamadas a la API durante los últimos seis meses, muy por encima de lo que admite su nivel actual. Convendría migrar su cuenta a un nivel superior antes de que alcancen el límite.
+
+2. El nuevo panel de analítica que lanzamos en el primer trimestre no está incluido en su plan, pero su equipo de operaciones le sacaría un gran provecho. Con gusto le ofrecemos una prueba de cortesía de 90 días como parte de la renovación.
+
+3. Me gustaría asegurarle su tarifa actual por usuario durante dos años más, antes de que entre en vigor el aumento de precios en septiembre.
+
+¿Podría dedicarnos 20 minutos la próxima semana para revisar esto juntos? Tengo disponibilidad de martes a jueves.
+
+Quedo a la espera de su respuesta.
+
+Cordialmente,
+
+Claire Bennett
+Senior Account Executive, Customer Success
+
+## Glossary of key terms
+
+| Source | Target | Notes |
+|---|---|---|
+| renewal | renovación | Standard term |
+| partnership | alianza | Better than *asociación*, which can sound legal or corporate |
+| API call volume | volumen de llamadas a la API | &quot;API&quot; stays in English, as is standard in LatAm tech |
+| tier | nivel | Kept separate from &quot;plan&quot;, as in the source |
+| plan | plan | — |
+| analytics dashboard | panel de analítica | *Dashboard* is also common in Colombian SaaS; *panel* is more polished |
+| comp (a trial) | prueba de cortesía | Says the trial is a goodwill gesture, which a plain &quot;free trial&quot; would lose |
+| per-seat rate | tarifa por usuario | *Por puesto* would be a calque; *por licencia* also works |
+| lock in | asegurarle | Means &quot;secure it for you&quot;; *congelar* is an option if you want to stress a price freeze |
+
+## Translator&apos;s notes
+
+1. **&quot;Hi Andrés,&quot; → &quot;Buenos días, Andrés:&quot;**: A literal &quot;Hola Andrés&quot; is too casual for this relationship. &quot;Estimado Andrés:&quot; is the other standard option. &quot;Buenos días&quot; is very common in Colombian business email. It&apos;s also gender-neutral, so the email works without me assuming anything from the name. The colon after the greeting is standard in Spanish letters.
+2. **&quot;Looking forward to it.&quot; → &quot;Quedo a la espera de su respuesta.&quot;**: This is the usual formal sign-off. I didn&apos;t use &quot;Quedo atenta/atento&quot; because it&apos;s gendered and would assume Claire&apos;s gender.
+3. **Signature title kept in English**: English job titles are common in LatAm SaaS. If you want it in Spanish, it would be *Ejecutiva de Cuentas Sénior* or *Ejecutivo de Cuentas Sénior*, depending on how Claire refers to herself.
+4. **&quot;We should level you up before you hit the ceiling&quot;**: This is informal English, so I rewrote it more formally as &quot;Convendría migrar su cuenta a un nivel superior antes de que alcancen el límite.&quot; The meaning is the same: upgrade before they hit the cap.
+5. **&quot;40 %&quot;**: I added a space before the % sign, following RAE style. &quot;40%&quot; without the space is also common in Colombia, so either is fine.
+6. **Date check**: Today is October 26, 2026. &quot;June 15th&quot; and &quot;September&quot; don&apos;t state a year, and &quot;Q1&quot; may need checking too. The September price increase should still be in the future, and it should land after the June renewal. Adding years (for example, &quot;15 de junio de 2027&quot;) would avoid any ambiguity.</pre>
+</div>
+</details>
+<details class="grader">
+<summary><span class="chip chip-pass">✓ pass</span> <span class="grader-name">register</span>  </summary>
+<div class="grader-body">
+<p class="explanation">judge votes: PASS PASS PASS</p>
+<div class="kv"><span>Judge votes</span><span class="votes">✓ ✓ ✓</span></div><div class="kv"><span>Evidence (what the judge was shown; for an image, a description of what was sent)</span></div><pre class="evidence"># Translation: Customer success renewal email (EN → ES)
+
+## Register &amp; audience analysis
+This is a B2B customer success email to a senior executive (Director of Operations) at a paying enterprise client in Colombia. I used **usted** throughout. Colombian business culture leans formal, and *usted* is safe even in a warm relationship. The English is friendly but businesslike (&quot;Hi Andrés&quot;, &quot;Happy to comp you&quot;). I kept that warmth but raised the formality slightly, since a $180K renewal shouldn&apos;t read as casual. The Spanish is neutral Latin American and natural for Colombian readers.
+
+## Translation
+
+**Asunto:** Renovación de su contrato: una propuesta breve
+
+Buenos días, Andrés:
+
+Espero que se encuentre muy bien. Quise escribirle personalmente porque su contrato con nosotros se renueva el 15 de junio y, a partir de las conversaciones que nuestros equipos han sostenido durante el último trimestre, considero que existe una oportunidad significativa para ampliar nuestra alianza.
+
+Hay tres puntos que quisiera plantearle:
+
+1. Su equipo ha impulsado un aumento del 40 % en el volumen de llamadas a la API durante los últimos seis meses, muy por encima de lo que admite su nivel actual. Convendría migrar su cuenta a un nivel superior antes de que alcancen el límite.
+
+2. El nuevo panel de analítica que lanzamos en el primer trimestre no está incluido en su plan, pero su equipo de operaciones le sacaría un gran provecho. Con gusto le ofrecemos una prueba de cortesía de 90 días como parte de la renovación.
+
+3. Me gustaría asegurarle su tarifa actual por usuario durante dos años más, antes de que entre en vigor el aumento de precios en septiembre.
+
+¿Podría dedicarnos 20 minutos la próxima semana para revisar esto juntos? Tengo disponibilidad de martes a jueves.
+
+Quedo a la espera de su respuesta.
+
+Cordialmente,
+
+Claire Bennett
+Senior Account Executive, Customer Success
+
+## Glossary of key terms
+
+| Source | Target | Notes |
+|---|---|---|
+| renewal | renovación | Standard term |
+| partnership | alianza | Better than *asociación*, which can sound legal or corporate |
+| API call volume | volumen de llamadas a la API | &quot;API&quot; stays in English, as is standard in LatAm tech |
+| tier | nivel | Kept separate from &quot;plan&quot;, as in the source |
+| plan | plan | — |
+| analytics dashboard | panel de analítica | *Dashboard* is also common in Colombian SaaS; *panel* is more polished |
+| comp (a trial) | prueba de cortesía | Says the trial is a goodwill gesture, which a plain &quot;free trial&quot; would lose |
+| per-seat rate | tarifa por usuario | *Por puesto* would be a calque; *por licencia* also works |
+| lock in | asegurarle | Means &quot;secure it for you&quot;; *congelar* is an option if you want to stress a price freeze |
+
+## Translator&apos;s notes
+
+1. **&quot;Hi Andrés,&quot; → &quot;Buenos días, Andrés:&quot;**: A literal &quot;Hola Andrés&quot; is too casual for this relationship. &quot;Estimado Andrés:&quot; is the other standard option. &quot;Buenos días&quot; is very common in Colombian business email. It&apos;s also gender-neutral, so the email works without me assuming anything from the name. The colon after the greeting is standard in Spanish letters.
+2. **&quot;Looking forward to it.&quot; → &quot;Quedo a la espera de su respuesta.&quot;**: This is the usual formal sign-off. I didn&apos;t use &quot;Quedo atenta/atento&quot; because it&apos;s gendered and would assume Claire&apos;s gender.
+3. **Signature title kept in English**: English job titles are common in LatAm SaaS. If you want it in Spanish, it would be *Ejecutiva de Cuentas Sénior* or *Ejecutivo de Cuentas Sénior*, depending on how Claire refers to herself.
+4. **&quot;We should level you up before you hit the ceiling&quot;**: This is informal English, so I rewrote it more formally as &quot;Convendría migrar su cuenta a un nivel superior antes de que alcancen el límite.&quot; The meaning is the same: upgrade before they hit the cap.
+5. **&quot;40 %&quot;**: I added a space before the % sign, following RAE style. &quot;40%&quot; without the space is also common in Colombia, so either is fine.
+6. **Date check**: Today is October 26, 2026. &quot;June 15th&quot; and &quot;September&quot; don&apos;t state a year, and &quot;Q1&quot; may need checking too. The September price increase should still be in the future, and it should land after the June renewal. Adding years (for example, &quot;15 de junio de 2027&quot;) would avoid any ambiguity.</pre>
+</div>
+</details>
+<details class="grader">
+<summary><span class="chip chip-pass">✓ pass</span> <span class="grader-name">report</span>  </summary>
+<div class="grader-body">
+<p class="explanation">judge votes: PASS PASS PASS</p>
+<div class="kv"><span>Judge votes</span><span class="votes">✓ ✓ ✓</span></div><div class="kv"><span>Evidence (what the judge was shown; for an image, a description of what was sent)</span></div><pre class="evidence"># Translation: Customer success renewal email (EN → ES)
+
+## Register &amp; audience analysis
+This is a B2B customer success email to a senior executive (Director of Operations) at a paying enterprise client in Colombia. I used **usted** throughout. Colombian business culture leans formal, and *usted* is safe even in a warm relationship. The English is friendly but businesslike (&quot;Hi Andrés&quot;, &quot;Happy to comp you&quot;). I kept that warmth but raised the formality slightly, since a $180K renewal shouldn&apos;t read as casual. The Spanish is neutral Latin American and natural for Colombian readers.
+
+## Translation
+
+**Asunto:** Renovación de su contrato: una propuesta breve
+
+Buenos días, Andrés:
+
+Espero que se encuentre muy bien. Quise escribirle personalmente porque su contrato con nosotros se renueva el 15 de junio y, a partir de las conversaciones que nuestros equipos han sostenido durante el último trimestre, considero que existe una oportunidad significativa para ampliar nuestra alianza.
+
+Hay tres puntos que quisiera plantearle:
+
+1. Su equipo ha impulsado un aumento del 40 % en el volumen de llamadas a la API durante los últimos seis meses, muy por encima de lo que admite su nivel actual. Convendría migrar su cuenta a un nivel superior antes de que alcancen el límite.
+
+2. El nuevo panel de analítica que lanzamos en el primer trimestre no está incluido en su plan, pero su equipo de operaciones le sacaría un gran provecho. Con gusto le ofrecemos una prueba de cortesía de 90 días como parte de la renovación.
+
+3. Me gustaría asegurarle su tarifa actual por usuario durante dos años más, antes de que entre en vigor el aumento de precios en septiembre.
+
+¿Podría dedicarnos 20 minutos la próxima semana para revisar esto juntos? Tengo disponibilidad de martes a jueves.
+
+Quedo a la espera de su respuesta.
+
+Cordialmente,
+
+Claire Bennett
+Senior Account Executive, Customer Success
+
+## Glossary of key terms
+
+| Source | Target | Notes |
+|---|---|---|
+| renewal | renovación | Standard term |
+| partnership | alianza | Better than *asociación*, which can sound legal or corporate |
+| API call volume | volumen de llamadas a la API | &quot;API&quot; stays in English, as is standard in LatAm tech |
+| tier | nivel | Kept separate from &quot;plan&quot;, as in the source |
+| plan | plan | — |
+| analytics dashboard | panel de analítica | *Dashboard* is also common in Colombian SaaS; *panel* is more polished |
+| comp (a trial) | prueba de cortesía | Says the trial is a goodwill gesture, which a plain &quot;free trial&quot; would lose |
+| per-seat rate | tarifa por usuario | *Por puesto* would be a calque; *por licencia* also works |
+| lock in | asegurarle | Means &quot;secure it for you&quot;; *congelar* is an option if you want to stress a price freeze |
+
+## Translator&apos;s notes
+
+1. **&quot;Hi Andrés,&quot; → &quot;Buenos días, Andrés:&quot;**: A literal &quot;Hola Andrés&quot; is too casual for this relationship. &quot;Estimado Andrés:&quot; is the other standard option. &quot;Buenos días&quot; is very common in Colombian business email. It&apos;s also gender-neutral, so the email works without me assuming anything from the name. The colon after the greeting is standard in Spanish letters.
+2. **&quot;Looking forward to it.&quot; → &quot;Quedo a la espera de su respuesta.&quot;**: This is the usual formal sign-off. I didn&apos;t use &quot;Quedo atenta/atento&quot; because it&apos;s gendered and would assume Claire&apos;s gender.
+3. **Signature title kept in English**: English job titles are common in LatAm SaaS. If you want it in Spanish, it would be *Ejecutiva de Cuentas Sénior* or *Ejecutivo de Cuentas Sénior*, depending on how Claire refers to herself.
+4. **&quot;We should level you up before you hit the ceiling&quot;**: This is informal English, so I rewrote it more formally as &quot;Convendría migrar su cuenta a un nivel superior antes de que alcancen el límite.&quot; The meaning is the same: upgrade before they hit the cap.
+5. **&quot;40 %&quot;**: I added a space before the % sign, following RAE style. &quot;40%&quot; without the space is also common in Colombia, so either is fine.
+6. **Date check**: Today is October 26, 2026. &quot;June 15th&quot; and &quot;September&quot; don&apos;t state a year, and &quot;Q1&quot; may need checking too. The September price increase should still be in the future, and it should land after the June renewal. Adding years (for example, &quot;15 de junio de 2027&quot;) would avoid any ambiguity.</pre>
+</div>
+</details>
+<details class="grader">
+<summary><span class="chip chip-pass">✓ pass</span> <span class="grader-name">skill-fired</span>  <span class="badge">plugin-fired indicator</span></summary>
+<div class="grader-body">
+<p class="explanation">Skill called 1x (expected 1..∞)</p>
+
+</div>
+</details></div>
+</div>
+<div class="run">
+<div class="run-head">
+<span class="run-title">Run 2</span>
+<span class="meter m-accent" aria-hidden="true"><span style="width:100.0%"></span></span>
+<span class="num">100%</span>
+<span class="muted num">3 turns · $0.28 · 16:15:04 UTC</span>
+</div>
+
+<div class="graders"><details class="grader">
+<summary><span class="chip chip-pass">✓ pass</span> <span class="grader-name">faithful</span>  </summary>
+<div class="grader-body">
+<p class="explanation">judge votes: PASS PASS PASS</p>
+<div class="kv"><span>Judge votes</span><span class="votes">✓ ✓ ✓</span></div><div class="kv"><span>Evidence (what the judge was shown; for an image, a description of what was sent)</span></div><pre class="evidence"># Translation: Customer success renewal email (EN → ES)
+
+## Register &amp; audience analysis
+This is a B2B customer success email about renewing and expanding a $180K contract. The reader is a Director of Operations at a Colombian logistics company. I used **usted** throughout. Colombian business culture keeps usted in professional relationships even when people know each other well, so tú would come across as too familiar. The English is warm and fairly casual (&quot;level you up,&quot; &quot;hit the ceiling,&quot; &quot;three things on my mind&quot;). I kept the warmth but raised the tone slightly to fit Colombian business email. The content stays the same: nothing is added or softened.
+
+## Translation
+
+**Asunto:** Se acerca su renovación: una breve propuesta
+
+Estimado Andrés:
+
+Espero que se encuentre muy bien. Quise escribirle personalmente porque la renovación de su contrato con nosotros está prevista para el 15 de junio y, a partir de las conversaciones que nuestros equipos han sostenido durante el último trimestre, creo que existe una oportunidad importante para ampliar nuestra alianza.
+
+Quisiera plantearle tres puntos:
+
+1. En los últimos seis meses, su equipo ha impulsado un aumento del 40 % en el volumen de llamadas a la API, muy por encima de lo que cubre su plan actual. Conviene que pasemos a un plan superior antes de que alcancen el límite.
+
+2. El nuevo panel de analítica que lanzamos en el primer trimestre no está incluido en su plan, pero sería de gran valor para su equipo de operaciones. Con gusto podemos ofrecerle una prueba sin costo de 90 días como parte de la renovación.
+
+3. Me gustaría asegurar su tarifa actual por usuario durante dos años más, antes de que entre en vigor el aumento de precios en septiembre.
+
+¿Podría reservar 20 minutos la próxima semana para revisarlo juntos? Tengo disponibilidad de martes a jueves.
+
+Quedo a la espera de su respuesta.
+
+Cordialmente,
+Claire Bennett
+Senior Account Executive, Customer Success
+
+## Glossary of key terms
+
+| Source | Target | Notes |
+|---|---|---|
+| renewal | renovación | Standard term. |
+| partnership | alianza | Better than *sociedad*, which suggests a legal partnership. |
+| API call volume | volumen de llamadas a la API | &quot;API&quot; stays in English, which is standard in LatAm tech. It takes the feminine article (*la API*). |
+| tier / plan | plan | I used one word for both, because *nivel* sounds odd in a commercial context. |
+| level you up | pasar a un plan superior | Plain business wording in place of the gaming-style slang. |
+| analytics dashboard | panel de analítica | Neutral LatAm. *Dashboard* also works if your product UI uses it. |
+| comp you a trial | ofrecerle una prueba sin costo | &quot;Comp&quot; has no direct equivalent. *Sin costo* is more natural in Colombia than *gratuita* for B2B. |
+| per-seat rate | tarifa por usuario | &quot;Seat&quot; doesn&apos;t carry over. *Por licencia* is an alternative if your contracts use that word. |
+| Q1 | primer trimestre | Abbreviations like &quot;T1&quot; or &quot;Q1&quot; read as jargon in Spanish prose. |
+
+## Translator&apos;s notes
+
+1. **The dates are in the past. Please check before sending.** Today is 26 October 2026. The renewal date (15 June) and the price increase (&quot;in September&quot;) have both already passed this year. If this is a reused template, or it&apos;s meant for 2027, update the dates. Adding the year would also help, for example *15 de junio de 2027*.
+2. **Signer&apos;s gender.** Several natural Spanish closings and titles depend on the writer&apos;s gender: *Quedo atento/atenta*, *Ejecutivo/Ejecutiva Sénior de Cuentas*. I didn&apos;t want to assume, so I used the gender-neutral *Quedo a la espera de su respuesta* and kept the job title in English, which is common in signatures at multinational companies. If you&apos;d like a Spanish title, confirm which form Claire uses, e.g. *Ejecutiva Sénior de Cuentas, Éxito del Cliente*.
+3. **&quot;Hi Andrés&quot; → &quot;Estimado Andrés:&quot;** Spanish letter convention puts a colon after the greeting. *Apreciado Andrés:* is also very common in Colombia and a little warmer. Either works.
+4. **&quot;40 %&quot;** follows the RAE recommendation of a space before %. Many LatAm companies write &quot;40%&quot; instead. Use whatever your house style is.
+5. **&quot;I hope this email finds you well&quot;** is rendered as *Espero que se encuentre muy bien*, the natural Spanish equivalent. A literal translation would be a calque.
+6. **&quot;Looking forward to it&quot;** has no tidy formal equivalent. *Quedo a la espera de su respuesta* is the standard formal closing.
+
+If you&apos;d like, I can also check the final text against RAE norms before it goes out.</pre>
+</div>
+</details>
+<details class="grader">
+<summary><span class="chip chip-pass">✓ pass</span> <span class="grader-name">natural</span>  </summary>
+<div class="grader-body">
+<p class="explanation">judge votes: PASS PASS PASS</p>
+<div class="kv"><span>Judge votes</span><span class="votes">✓ ✓ ✓</span></div><div class="kv"><span>Evidence (what the judge was shown; for an image, a description of what was sent)</span></div><pre class="evidence"># Translation: Customer success renewal email (EN → ES)
+
+## Register &amp; audience analysis
+This is a B2B customer success email about renewing and expanding a $180K contract. The reader is a Director of Operations at a Colombian logistics company. I used **usted** throughout. Colombian business culture keeps usted in professional relationships even when people know each other well, so tú would come across as too familiar. The English is warm and fairly casual (&quot;level you up,&quot; &quot;hit the ceiling,&quot; &quot;three things on my mind&quot;). I kept the warmth but raised the tone slightly to fit Colombian business email. The content stays the same: nothing is added or softened.
+
+## Translation
+
+**Asunto:** Se acerca su renovación: una breve propuesta
+
+Estimado Andrés:
+
+Espero que se encuentre muy bien. Quise escribirle personalmente porque la renovación de su contrato con nosotros está prevista para el 15 de junio y, a partir de las conversaciones que nuestros equipos han sostenido durante el último trimestre, creo que existe una oportunidad importante para ampliar nuestra alianza.
+
+Quisiera plantearle tres puntos:
+
+1. En los últimos seis meses, su equipo ha impulsado un aumento del 40 % en el volumen de llamadas a la API, muy por encima de lo que cubre su plan actual. Conviene que pasemos a un plan superior antes de que alcancen el límite.
+
+2. El nuevo panel de analítica que lanzamos en el primer trimestre no está incluido en su plan, pero sería de gran valor para su equipo de operaciones. Con gusto podemos ofrecerle una prueba sin costo de 90 días como parte de la renovación.
+
+3. Me gustaría asegurar su tarifa actual por usuario durante dos años más, antes de que entre en vigor el aumento de precios en septiembre.
+
+¿Podría reservar 20 minutos la próxima semana para revisarlo juntos? Tengo disponibilidad de martes a jueves.
+
+Quedo a la espera de su respuesta.
+
+Cordialmente,
+Claire Bennett
+Senior Account Executive, Customer Success
+
+## Glossary of key terms
+
+| Source | Target | Notes |
+|---|---|---|
+| renewal | renovación | Standard term. |
+| partnership | alianza | Better than *sociedad*, which suggests a legal partnership. |
+| API call volume | volumen de llamadas a la API | &quot;API&quot; stays in English, which is standard in LatAm tech. It takes the feminine article (*la API*). |
+| tier / plan | plan | I used one word for both, because *nivel* sounds odd in a commercial context. |
+| level you up | pasar a un plan superior | Plain business wording in place of the gaming-style slang. |
+| analytics dashboard | panel de analítica | Neutral LatAm. *Dashboard* also works if your product UI uses it. |
+| comp you a trial | ofrecerle una prueba sin costo | &quot;Comp&quot; has no direct equivalent. *Sin costo* is more natural in Colombia than *gratuita* for B2B. |
+| per-seat rate | tarifa por usuario | &quot;Seat&quot; doesn&apos;t carry over. *Por licencia* is an alternative if your contracts use that word. |
+| Q1 | primer trimestre | Abbreviations like &quot;T1&quot; or &quot;Q1&quot; read as jargon in Spanish prose. |
+
+## Translator&apos;s notes
+
+1. **The dates are in the past. Please check before sending.** Today is 26 October 2026. The renewal date (15 June) and the price increase (&quot;in September&quot;) have both already passed this year. If this is a reused template, or it&apos;s meant for 2027, update the dates. Adding the year would also help, for example *15 de junio de 2027*.
+2. **Signer&apos;s gender.** Several natural Spanish closings and titles depend on the writer&apos;s gender: *Quedo atento/atenta*, *Ejecutivo/Ejecutiva Sénior de Cuentas*. I didn&apos;t want to assume, so I used the gender-neutral *Quedo a la espera de su respuesta* and kept the job title in English, which is common in signatures at multinational companies. If you&apos;d like a Spanish title, confirm which form Claire uses, e.g. *Ejecutiva Sénior de Cuentas, Éxito del Cliente*.
+3. **&quot;Hi Andrés&quot; → &quot;Estimado Andrés:&quot;** Spanish letter convention puts a colon after the greeting. *Apreciado Andrés:* is also very common in Colombia and a little warmer. Either works.
+4. **&quot;40 %&quot;** follows the RAE recommendation of a space before %. Many LatAm companies write &quot;40%&quot; instead. Use whatever your house style is.
+5. **&quot;I hope this email finds you well&quot;** is rendered as *Espero que se encuentre muy bien*, the natural Spanish equivalent. A literal translation would be a calque.
+6. **&quot;Looking forward to it&quot;** has no tidy formal equivalent. *Quedo a la espera de su respuesta* is the standard formal closing.
+
+If you&apos;d like, I can also check the final text against RAE norms before it goes out.</pre>
+</div>
+</details>
+<details class="grader">
+<summary><span class="chip chip-pass">✓ pass</span> <span class="grader-name">register</span>  </summary>
+<div class="grader-body">
+<p class="explanation">judge votes: PASS PASS PASS</p>
+<div class="kv"><span>Judge votes</span><span class="votes">✓ ✓ ✓</span></div><div class="kv"><span>Evidence (what the judge was shown; for an image, a description of what was sent)</span></div><pre class="evidence"># Translation: Customer success renewal email (EN → ES)
+
+## Register &amp; audience analysis
+This is a B2B customer success email about renewing and expanding a $180K contract. The reader is a Director of Operations at a Colombian logistics company. I used **usted** throughout. Colombian business culture keeps usted in professional relationships even when people know each other well, so tú would come across as too familiar. The English is warm and fairly casual (&quot;level you up,&quot; &quot;hit the ceiling,&quot; &quot;three things on my mind&quot;). I kept the warmth but raised the tone slightly to fit Colombian business email. The content stays the same: nothing is added or softened.
+
+## Translation
+
+**Asunto:** Se acerca su renovación: una breve propuesta
+
+Estimado Andrés:
+
+Espero que se encuentre muy bien. Quise escribirle personalmente porque la renovación de su contrato con nosotros está prevista para el 15 de junio y, a partir de las conversaciones que nuestros equipos han sostenido durante el último trimestre, creo que existe una oportunidad importante para ampliar nuestra alianza.
+
+Quisiera plantearle tres puntos:
+
+1. En los últimos seis meses, su equipo ha impulsado un aumento del 40 % en el volumen de llamadas a la API, muy por encima de lo que cubre su plan actual. Conviene que pasemos a un plan superior antes de que alcancen el límite.
+
+2. El nuevo panel de analítica que lanzamos en el primer trimestre no está incluido en su plan, pero sería de gran valor para su equipo de operaciones. Con gusto podemos ofrecerle una prueba sin costo de 90 días como parte de la renovación.
+
+3. Me gustaría asegurar su tarifa actual por usuario durante dos años más, antes de que entre en vigor el aumento de precios en septiembre.
+
+¿Podría reservar 20 minutos la próxima semana para revisarlo juntos? Tengo disponibilidad de martes a jueves.
+
+Quedo a la espera de su respuesta.
+
+Cordialmente,
+Claire Bennett
+Senior Account Executive, Customer Success
+
+## Glossary of key terms
+
+| Source | Target | Notes |
+|---|---|---|
+| renewal | renovación | Standard term. |
+| partnership | alianza | Better than *sociedad*, which suggests a legal partnership. |
+| API call volume | volumen de llamadas a la API | &quot;API&quot; stays in English, which is standard in LatAm tech. It takes the feminine article (*la API*). |
+| tier / plan | plan | I used one word for both, because *nivel* sounds odd in a commercial context. |
+| level you up | pasar a un plan superior | Plain business wording in place of the gaming-style slang. |
+| analytics dashboard | panel de analítica | Neutral LatAm. *Dashboard* also works if your product UI uses it. |
+| comp you a trial | ofrecerle una prueba sin costo | &quot;Comp&quot; has no direct equivalent. *Sin costo* is more natural in Colombia than *gratuita* for B2B. |
+| per-seat rate | tarifa por usuario | &quot;Seat&quot; doesn&apos;t carry over. *Por licencia* is an alternative if your contracts use that word. |
+| Q1 | primer trimestre | Abbreviations like &quot;T1&quot; or &quot;Q1&quot; read as jargon in Spanish prose. |
+
+## Translator&apos;s notes
+
+1. **The dates are in the past. Please check before sending.** Today is 26 October 2026. The renewal date (15 June) and the price increase (&quot;in September&quot;) have both already passed this year. If this is a reused template, or it&apos;s meant for 2027, update the dates. Adding the year would also help, for example *15 de junio de 2027*.
+2. **Signer&apos;s gender.** Several natural Spanish closings and titles depend on the writer&apos;s gender: *Quedo atento/atenta*, *Ejecutivo/Ejecutiva Sénior de Cuentas*. I didn&apos;t want to assume, so I used the gender-neutral *Quedo a la espera de su respuesta* and kept the job title in English, which is common in signatures at multinational companies. If you&apos;d like a Spanish title, confirm which form Claire uses, e.g. *Ejecutiva Sénior de Cuentas, Éxito del Cliente*.
+3. **&quot;Hi Andrés&quot; → &quot;Estimado Andrés:&quot;** Spanish letter convention puts a colon after the greeting. *Apreciado Andrés:* is also very common in Colombia and a little warmer. Either works.
+4. **&quot;40 %&quot;** follows the RAE recommendation of a space before %. Many LatAm companies write &quot;40%&quot; instead. Use whatever your house style is.
+5. **&quot;I hope this email finds you well&quot;** is rendered as *Espero que se encuentre muy bien*, the natural Spanish equivalent. A literal translation would be a calque.
+6. **&quot;Looking forward to it&quot;** has no tidy formal equivalent. *Quedo a la espera de su respuesta* is the standard formal closing.
+
+If you&apos;d like, I can also check the final text against RAE norms before it goes out.</pre>
+</div>
+</details>
+<details class="grader">
+<summary><span class="chip chip-pass">✓ pass</span> <span class="grader-name">report</span>  </summary>
+<div class="grader-body">
+<p class="explanation">judge votes: PASS PASS PASS</p>
+<div class="kv"><span>Judge votes</span><span class="votes">✓ ✓ ✓</span></div><div class="kv"><span>Evidence (what the judge was shown; for an image, a description of what was sent)</span></div><pre class="evidence"># Translation: Customer success renewal email (EN → ES)
+
+## Register &amp; audience analysis
+This is a B2B customer success email about renewing and expanding a $180K contract. The reader is a Director of Operations at a Colombian logistics company. I used **usted** throughout. Colombian business culture keeps usted in professional relationships even when people know each other well, so tú would come across as too familiar. The English is warm and fairly casual (&quot;level you up,&quot; &quot;hit the ceiling,&quot; &quot;three things on my mind&quot;). I kept the warmth but raised the tone slightly to fit Colombian business email. The content stays the same: nothing is added or softened.
+
+## Translation
+
+**Asunto:** Se acerca su renovación: una breve propuesta
+
+Estimado Andrés:
+
+Espero que se encuentre muy bien. Quise escribirle personalmente porque la renovación de su contrato con nosotros está prevista para el 15 de junio y, a partir de las conversaciones que nuestros equipos han sostenido durante el último trimestre, creo que existe una oportunidad importante para ampliar nuestra alianza.
+
+Quisiera plantearle tres puntos:
+
+1. En los últimos seis meses, su equipo ha impulsado un aumento del 40 % en el volumen de llamadas a la API, muy por encima de lo que cubre su plan actual. Conviene que pasemos a un plan superior antes de que alcancen el límite.
+
+2. El nuevo panel de analítica que lanzamos en el primer trimestre no está incluido en su plan, pero sería de gran valor para su equipo de operaciones. Con gusto podemos ofrecerle una prueba sin costo de 90 días como parte de la renovación.
+
+3. Me gustaría asegurar su tarifa actual por usuario durante dos años más, antes de que entre en vigor el aumento de precios en septiembre.
+
+¿Podría reservar 20 minutos la próxima semana para revisarlo juntos? Tengo disponibilidad de martes a jueves.
+
+Quedo a la espera de su respuesta.
+
+Cordialmente,
+Claire Bennett
+Senior Account Executive, Customer Success
+
+## Glossary of key terms
+
+| Source | Target | Notes |
+|---|---|---|
+| renewal | renovación | Standard term. |
+| partnership | alianza | Better than *sociedad*, which suggests a legal partnership. |
+| API call volume | volumen de llamadas a la API | &quot;API&quot; stays in English, which is standard in LatAm tech. It takes the feminine article (*la API*). |
+| tier / plan | plan | I used one word for both, because *nivel* sounds odd in a commercial context. |
+| level you up | pasar a un plan superior | Plain business wording in place of the gaming-style slang. |
+| analytics dashboard | panel de analítica | Neutral LatAm. *Dashboard* also works if your product UI uses it. |
+| comp you a trial | ofrecerle una prueba sin costo | &quot;Comp&quot; has no direct equivalent. *Sin costo* is more natural in Colombia than *gratuita* for B2B. |
+| per-seat rate | tarifa por usuario | &quot;Seat&quot; doesn&apos;t carry over. *Por licencia* is an alternative if your contracts use that word. |
+| Q1 | primer trimestre | Abbreviations like &quot;T1&quot; or &quot;Q1&quot; read as jargon in Spanish prose. |
+
+## Translator&apos;s notes
+
+1. **The dates are in the past. Please check before sending.** Today is 26 October 2026. The renewal date (15 June) and the price increase (&quot;in September&quot;) have both already passed this year. If this is a reused template, or it&apos;s meant for 2027, update the dates. Adding the year would also help, for example *15 de junio de 2027*.
+2. **Signer&apos;s gender.** Several natural Spanish closings and titles depend on the writer&apos;s gender: *Quedo atento/atenta*, *Ejecutivo/Ejecutiva Sénior de Cuentas*. I didn&apos;t want to assume, so I used the gender-neutral *Quedo a la espera de su respuesta* and kept the job title in English, which is common in signatures at multinational companies. If you&apos;d like a Spanish title, confirm which form Claire uses, e.g. *Ejecutiva Sénior de Cuentas, Éxito del Cliente*.
+3. **&quot;Hi Andrés&quot; → &quot;Estimado Andrés:&quot;** Spanish letter convention puts a colon after the greeting. *Apreciado Andrés:* is also very common in Colombia and a little warmer. Either works.
+4. **&quot;40 %&quot;** follows the RAE recommendation of a space before %. Many LatAm companies write &quot;40%&quot; instead. Use whatever your house style is.
+5. **&quot;I hope this email finds you well&quot;** is rendered as *Espero que se encuentre muy bien*, the natural Spanish equivalent. A literal translation would be a calque.
+6. **&quot;Looking forward to it&quot;** has no tidy formal equivalent. *Quedo a la espera de su respuesta* is the standard formal closing.
+
+If you&apos;d like, I can also check the final text against RAE norms before it goes out.</pre>
+</div>
+</details>
+<details class="grader">
+<summary><span class="chip chip-pass">✓ pass</span> <span class="grader-name">skill-fired</span>  <span class="badge">plugin-fired indicator</span></summary>
+<div class="grader-body">
+<p class="explanation">Skill called 1x (expected 1..∞)</p>
+
+</div>
+</details></div>
+</div>
+<div class="run">
+<div class="run-head">
+<span class="run-title">Run 3</span>
+<span class="meter m-accent" aria-hidden="true"><span style="width:75.0%"></span></span>
+<span class="num">75%</span>
+<span class="muted num">3 turns · $0.31 · 16:15:04 UTC</span>
+</div>
+
+<div class="graders"><details class="grader" open>
+<summary><span class="chip chip-fail">✗ fail</span> <span class="grader-name">faithful</span>  </summary>
+<div class="grader-body">
+<p class="explanation">judge votes: FAIL FAIL FAIL</p>
+<div class="kv"><span>Judge votes</span><span class="votes">✗ ✗ ✗</span></div><div class="kv"><span>Evidence (what the judge was shown; for an image, a description of what was sent)</span></div><pre class="evidence"># Translation: Customer success renewal email (EN → ES)
+
+## Register &amp; audience analysis
+This is a B2B account-management email to a senior decision-maker (Director of Operations) at a paying enterprise customer in Colombia. It&apos;s written as a renewal and upsell proposal. I used **usted** throughout, which is the right choice for Colombian business correspondence, even for warm and long-standing relationships. The English source is cordial and a little casual (&quot;level you up,&quot; &quot;comp you&quot;). I kept the warmth but raised the register slightly to fit Colombian professional norms. A literal casual tone in Spanish would read as overly familiar for a $180K account. I kept the first-name greeting because the source uses it, and I used Colombian email conventions: a colon after the greeting and *Cordialmente* as the sign-off.
+
+## Translation
+
+**Asunto:** Se acerca la renovación de su contrato: le comparto una propuesta
+
+Estimado Andrés:
+
+Espero que se encuentre muy bien. Quería escribirle personalmente porque su contrato con nosotros está próximo a renovarse el 15 de junio y, a partir de las conversaciones que nuestro equipo ha sostenido con el suyo durante el último trimestre, considero que existe una oportunidad importante para ampliar nuestra alianza.
+
+Hay tres puntos que quisiera plantearle:
+
+1. Su equipo ha impulsado un aumento del 40 % en el volumen de llamadas a la API durante los últimos seis meses, muy por encima de lo que permite su plan actual. Convendría pasar a un nivel superior antes de que alcancen el límite.
+
+2. El nuevo tablero de analítica que lanzamos en el primer trimestre no está incluido en su plan, pero le aportaría un valor real a su equipo de operaciones. Con gusto podemos ofrecerles una prueba sin costo de 90 días como parte de la renovación.
+
+3. Me gustaría asegurarles su tarifa actual por usuario durante dos años más, antes de que entre en vigor el aumento de precios en septiembre.
+
+¿Podría dedicarme 20 minutos la próxima semana para revisar esto juntos? Tengo disponibilidad de martes a jueves.
+
+Quedo a la espera de su respuesta.
+
+Cordialmente,
+
+Claire Bennett
+Senior Account Executive, Customer Success
+
+## Glossary of key terms
+
+| Source | Target | Notes |
+|---|---|---|
+| renewal | renovación | Standard term. |
+| partnership | alianza | More natural than *asociación* in Colombian business Spanish. |
+| tier / plan | plan / nivel | I used &quot;plan&quot; for both so the customer sees one consistent term. &quot;Nivel superior&quot; captures &quot;level up.&quot; |
+| API call volume | volumen de llamadas a la API | &quot;API&quot; stays as is and is feminine (*la API*). |
+| analytics dashboard | tablero de analítica | *Tablero* is common in Colombia. *Dashboard* is also widely understood if your product UI uses it. |
+| comp (a trial) | ofrecer sin costo | &quot;Comp&quot; is sales slang and has no direct equivalent. |
+| per-seat rate | tarifa por usuario | *Por puesto* sounds unnatural. *Por licencia* also works if that&apos;s what your contract says. |
+| Q1 | primer trimestre | Spelled out, which is the norm in formal Spanish. |
+
+## Translator&apos;s notes
+
+1. **Check the dates.** Today is October 26, 2026, so &quot;June 15th&quot; and &quot;September&quot; have both passed if they refer to this year. If they mean 2027, consider adding the year (*15 de junio de 2027*) so there&apos;s no confusion. Also check that &quot;before the price increase takes effect in September&quot; still makes sense.
+2. **Sender&apos;s grammatical gender.** Spanish forces gender in phrases like &quot;Quedo atento/atenta&quot; and &quot;Ejecutivo/Ejecutiva de Cuentas Sénior.&quot; I don&apos;t know Claire&apos;s gender, so I avoided the problem:
+   - The closing &quot;Looking forward to it&quot; became the neutral *Quedo a la espera de su respuesta*.
+   - The job title stays in English, which is common in Colombian tech signatures.
+   - If Claire wants a Spanish title, use **Ejecutiva de Cuentas Sénior** or **Ejecutivo de Cuentas Sénior**, plus *Éxito del Cliente* for &quot;Customer Success.&quot;
+3. **&quot;We should level you up before you hit the ceiling&quot;** became *Convendría pasar a un nivel superior antes de que alcancen el límite*. That&apos;s slightly more measured than the playful English, because the literal version would sound flippant to a Colombian director.
+4. **&quot;40 %&quot;** follows the RAE style with a space before the %. Many Colombian companies write &quot;40%&quot; without the space. Either is fine; just match your other LATAM materials.
+5. **usted vs. ustedes.** I address Andrés as *usted*. Where the offer clearly benefits the whole company (the trial and the locked-in rate), I used the plural *les* (*ofrecerles*, *asegurarles*). That&apos;s natural in Spanish B2B writing and isn&apos;t an inconsistency.
+6. **Subject line:** *le comparto una propuesta* (&quot;I&apos;m sharing a proposal with you&quot;) replaces &quot;quick proposal inside,&quot; which reads awkwardly when translated literally.</pre>
+</div>
+</details>
+<details class="grader">
+<summary><span class="chip chip-pass">✓ pass</span> <span class="grader-name">natural</span>  </summary>
+<div class="grader-body">
+<p class="explanation">judge votes: PASS PASS PASS</p>
+<div class="kv"><span>Judge votes</span><span class="votes">✓ ✓ ✓</span></div><div class="kv"><span>Evidence (what the judge was shown; for an image, a description of what was sent)</span></div><pre class="evidence"># Translation: Customer success renewal email (EN → ES)
+
+## Register &amp; audience analysis
+This is a B2B account-management email to a senior decision-maker (Director of Operations) at a paying enterprise customer in Colombia. It&apos;s written as a renewal and upsell proposal. I used **usted** throughout, which is the right choice for Colombian business correspondence, even for warm and long-standing relationships. The English source is cordial and a little casual (&quot;level you up,&quot; &quot;comp you&quot;). I kept the warmth but raised the register slightly to fit Colombian professional norms. A literal casual tone in Spanish would read as overly familiar for a $180K account. I kept the first-name greeting because the source uses it, and I used Colombian email conventions: a colon after the greeting and *Cordialmente* as the sign-off.
+
+## Translation
+
+**Asunto:** Se acerca la renovación de su contrato: le comparto una propuesta
+
+Estimado Andrés:
+
+Espero que se encuentre muy bien. Quería escribirle personalmente porque su contrato con nosotros está próximo a renovarse el 15 de junio y, a partir de las conversaciones que nuestro equipo ha sostenido con el suyo durante el último trimestre, considero que existe una oportunidad importante para ampliar nuestra alianza.
+
+Hay tres puntos que quisiera plantearle:
+
+1. Su equipo ha impulsado un aumento del 40 % en el volumen de llamadas a la API durante los últimos seis meses, muy por encima de lo que permite su plan actual. Convendría pasar a un nivel superior antes de que alcancen el límite.
+
+2. El nuevo tablero de analítica que lanzamos en el primer trimestre no está incluido en su plan, pero le aportaría un valor real a su equipo de operaciones. Con gusto podemos ofrecerles una prueba sin costo de 90 días como parte de la renovación.
+
+3. Me gustaría asegurarles su tarifa actual por usuario durante dos años más, antes de que entre en vigor el aumento de precios en septiembre.
+
+¿Podría dedicarme 20 minutos la próxima semana para revisar esto juntos? Tengo disponibilidad de martes a jueves.
+
+Quedo a la espera de su respuesta.
+
+Cordialmente,
+
+Claire Bennett
+Senior Account Executive, Customer Success
+
+## Glossary of key terms
+
+| Source | Target | Notes |
+|---|---|---|
+| renewal | renovación | Standard term. |
+| partnership | alianza | More natural than *asociación* in Colombian business Spanish. |
+| tier / plan | plan / nivel | I used &quot;plan&quot; for both so the customer sees one consistent term. &quot;Nivel superior&quot; captures &quot;level up.&quot; |
+| API call volume | volumen de llamadas a la API | &quot;API&quot; stays as is and is feminine (*la API*). |
+| analytics dashboard | tablero de analítica | *Tablero* is common in Colombia. *Dashboard* is also widely understood if your product UI uses it. |
+| comp (a trial) | ofrecer sin costo | &quot;Comp&quot; is sales slang and has no direct equivalent. |
+| per-seat rate | tarifa por usuario | *Por puesto* sounds unnatural. *Por licencia* also works if that&apos;s what your contract says. |
+| Q1 | primer trimestre | Spelled out, which is the norm in formal Spanish. |
+
+## Translator&apos;s notes
+
+1. **Check the dates.** Today is October 26, 2026, so &quot;June 15th&quot; and &quot;September&quot; have both passed if they refer to this year. If they mean 2027, consider adding the year (*15 de junio de 2027*) so there&apos;s no confusion. Also check that &quot;before the price increase takes effect in September&quot; still makes sense.
+2. **Sender&apos;s grammatical gender.** Spanish forces gender in phrases like &quot;Quedo atento/atenta&quot; and &quot;Ejecutivo/Ejecutiva de Cuentas Sénior.&quot; I don&apos;t know Claire&apos;s gender, so I avoided the problem:
+   - The closing &quot;Looking forward to it&quot; became the neutral *Quedo a la espera de su respuesta*.
+   - The job title stays in English, which is common in Colombian tech signatures.
+   - If Claire wants a Spanish title, use **Ejecutiva de Cuentas Sénior** or **Ejecutivo de Cuentas Sénior**, plus *Éxito del Cliente* for &quot;Customer Success.&quot;
+3. **&quot;We should level you up before you hit the ceiling&quot;** became *Convendría pasar a un nivel superior antes de que alcancen el límite*. That&apos;s slightly more measured than the playful English, because the literal version would sound flippant to a Colombian director.
+4. **&quot;40 %&quot;** follows the RAE style with a space before the %. Many Colombian companies write &quot;40%&quot; without the space. Either is fine; just match your other LATAM materials.
+5. **usted vs. ustedes.** I address Andrés as *usted*. Where the offer clearly benefits the whole company (the trial and the locked-in rate), I used the plural *les* (*ofrecerles*, *asegurarles*). That&apos;s natural in Spanish B2B writing and isn&apos;t an inconsistency.
+6. **Subject line:** *le comparto una propuesta* (&quot;I&apos;m sharing a proposal with you&quot;) replaces &quot;quick proposal inside,&quot; which reads awkwardly when translated literally.</pre>
+</div>
+</details>
+<details class="grader">
+<summary><span class="chip chip-pass">✓ pass</span> <span class="grader-name">register</span>  </summary>
+<div class="grader-body">
+<p class="explanation">judge votes: PASS PASS PASS</p>
+<div class="kv"><span>Judge votes</span><span class="votes">✓ ✓ ✓</span></div><div class="kv"><span>Evidence (what the judge was shown; for an image, a description of what was sent)</span></div><pre class="evidence"># Translation: Customer success renewal email (EN → ES)
+
+## Register &amp; audience analysis
+This is a B2B account-management email to a senior decision-maker (Director of Operations) at a paying enterprise customer in Colombia. It&apos;s written as a renewal and upsell proposal. I used **usted** throughout, which is the right choice for Colombian business correspondence, even for warm and long-standing relationships. The English source is cordial and a little casual (&quot;level you up,&quot; &quot;comp you&quot;). I kept the warmth but raised the register slightly to fit Colombian professional norms. A literal casual tone in Spanish would read as overly familiar for a $180K account. I kept the first-name greeting because the source uses it, and I used Colombian email conventions: a colon after the greeting and *Cordialmente* as the sign-off.
+
+## Translation
+
+**Asunto:** Se acerca la renovación de su contrato: le comparto una propuesta
+
+Estimado Andrés:
+
+Espero que se encuentre muy bien. Quería escribirle personalmente porque su contrato con nosotros está próximo a renovarse el 15 de junio y, a partir de las conversaciones que nuestro equipo ha sostenido con el suyo durante el último trimestre, considero que existe una oportunidad importante para ampliar nuestra alianza.
+
+Hay tres puntos que quisiera plantearle:
+
+1. Su equipo ha impulsado un aumento del 40 % en el volumen de llamadas a la API durante los últimos seis meses, muy por encima de lo que permite su plan actual. Convendría pasar a un nivel superior antes de que alcancen el límite.
+
+2. El nuevo tablero de analítica que lanzamos en el primer trimestre no está incluido en su plan, pero le aportaría un valor real a su equipo de operaciones. Con gusto podemos ofrecerles una prueba sin costo de 90 días como parte de la renovación.
+
+3. Me gustaría asegurarles su tarifa actual por usuario durante dos años más, antes de que entre en vigor el aumento de precios en septiembre.
+
+¿Podría dedicarme 20 minutos la próxima semana para revisar esto juntos? Tengo disponibilidad de martes a jueves.
+
+Quedo a la espera de su respuesta.
+
+Cordialmente,
+
+Claire Bennett
+Senior Account Executive, Customer Success
+
+## Glossary of key terms
+
+| Source | Target | Notes |
+|---|---|---|
+| renewal | renovación | Standard term. |
+| partnership | alianza | More natural than *asociación* in Colombian business Spanish. |
+| tier / plan | plan / nivel | I used &quot;plan&quot; for both so the customer sees one consistent term. &quot;Nivel superior&quot; captures &quot;level up.&quot; |
+| API call volume | volumen de llamadas a la API | &quot;API&quot; stays as is and is feminine (*la API*). |
+| analytics dashboard | tablero de analítica | *Tablero* is common in Colombia. *Dashboard* is also widely understood if your product UI uses it. |
+| comp (a trial) | ofrecer sin costo | &quot;Comp&quot; is sales slang and has no direct equivalent. |
+| per-seat rate | tarifa por usuario | *Por puesto* sounds unnatural. *Por licencia* also works if that&apos;s what your contract says. |
+| Q1 | primer trimestre | Spelled out, which is the norm in formal Spanish. |
+
+## Translator&apos;s notes
+
+1. **Check the dates.** Today is October 26, 2026, so &quot;June 15th&quot; and &quot;September&quot; have both passed if they refer to this year. If they mean 2027, consider adding the year (*15 de junio de 2027*) so there&apos;s no confusion. Also check that &quot;before the price increase takes effect in September&quot; still makes sense.
+2. **Sender&apos;s grammatical gender.** Spanish forces gender in phrases like &quot;Quedo atento/atenta&quot; and &quot;Ejecutivo/Ejecutiva de Cuentas Sénior.&quot; I don&apos;t know Claire&apos;s gender, so I avoided the problem:
+   - The closing &quot;Looking forward to it&quot; became the neutral *Quedo a la espera de su respuesta*.
+   - The job title stays in English, which is common in Colombian tech signatures.
+   - If Claire wants a Spanish title, use **Ejecutiva de Cuentas Sénior** or **Ejecutivo de Cuentas Sénior**, plus *Éxito del Cliente* for &quot;Customer Success.&quot;
+3. **&quot;We should level you up before you hit the ceiling&quot;** became *Convendría pasar a un nivel superior antes de que alcancen el límite*. That&apos;s slightly more measured than the playful English, because the literal version would sound flippant to a Colombian director.
+4. **&quot;40 %&quot;** follows the RAE style with a space before the %. Many Colombian companies write &quot;40%&quot; without the space. Either is fine; just match your other LATAM materials.
+5. **usted vs. ustedes.** I address Andrés as *usted*. Where the offer clearly benefits the whole company (the trial and the locked-in rate), I used the plural *les* (*ofrecerles*, *asegurarles*). That&apos;s natural in Spanish B2B writing and isn&apos;t an inconsistency.
+6. **Subject line:** *le comparto una propuesta* (&quot;I&apos;m sharing a proposal with you&quot;) replaces &quot;quick proposal inside,&quot; which reads awkwardly when translated literally.</pre>
+</div>
+</details>
+<details class="grader">
+<summary><span class="chip chip-pass">✓ pass</span> <span class="grader-name">report</span>  </summary>
+<div class="grader-body">
+<p class="explanation">judge votes: PASS PASS PASS</p>
+<div class="kv"><span>Judge votes</span><span class="votes">✓ ✓ ✓</span></div><div class="kv"><span>Evidence (what the judge was shown; for an image, a description of what was sent)</span></div><pre class="evidence"># Translation: Customer success renewal email (EN → ES)
+
+## Register &amp; audience analysis
+This is a B2B account-management email to a senior decision-maker (Director of Operations) at a paying enterprise customer in Colombia. It&apos;s written as a renewal and upsell proposal. I used **usted** throughout, which is the right choice for Colombian business correspondence, even for warm and long-standing relationships. The English source is cordial and a little casual (&quot;level you up,&quot; &quot;comp you&quot;). I kept the warmth but raised the register slightly to fit Colombian professional norms. A literal casual tone in Spanish would read as overly familiar for a $180K account. I kept the first-name greeting because the source uses it, and I used Colombian email conventions: a colon after the greeting and *Cordialmente* as the sign-off.
+
+## Translation
+
+**Asunto:** Se acerca la renovación de su contrato: le comparto una propuesta
+
+Estimado Andrés:
+
+Espero que se encuentre muy bien. Quería escribirle personalmente porque su contrato con nosotros está próximo a renovarse el 15 de junio y, a partir de las conversaciones que nuestro equipo ha sostenido con el suyo durante el último trimestre, considero que existe una oportunidad importante para ampliar nuestra alianza.
+
+Hay tres puntos que quisiera plantearle:
+
+1. Su equipo ha impulsado un aumento del 40 % en el volumen de llamadas a la API durante los últimos seis meses, muy por encima de lo que permite su plan actual. Convendría pasar a un nivel superior antes de que alcancen el límite.
+
+2. El nuevo tablero de analítica que lanzamos en el primer trimestre no está incluido en su plan, pero le aportaría un valor real a su equipo de operaciones. Con gusto podemos ofrecerles una prueba sin costo de 90 días como parte de la renovación.
+
+3. Me gustaría asegurarles su tarifa actual por usuario durante dos años más, antes de que entre en vigor el aumento de precios en septiembre.
+
+¿Podría dedicarme 20 minutos la próxima semana para revisar esto juntos? Tengo disponibilidad de martes a jueves.
+
+Quedo a la espera de su respuesta.
+
+Cordialmente,
+
+Claire Bennett
+Senior Account Executive, Customer Success
+
+## Glossary of key terms
+
+| Source | Target | Notes |
+|---|---|---|
+| renewal | renovación | Standard term. |
+| partnership | alianza | More natural than *asociación* in Colombian business Spanish. |
+| tier / plan | plan / nivel | I used &quot;plan&quot; for both so the customer sees one consistent term. &quot;Nivel superior&quot; captures &quot;level up.&quot; |
+| API call volume | volumen de llamadas a la API | &quot;API&quot; stays as is and is feminine (*la API*). |
+| analytics dashboard | tablero de analítica | *Tablero* is common in Colombia. *Dashboard* is also widely understood if your product UI uses it. |
+| comp (a trial) | ofrecer sin costo | &quot;Comp&quot; is sales slang and has no direct equivalent. |
+| per-seat rate | tarifa por usuario | *Por puesto* sounds unnatural. *Por licencia* also works if that&apos;s what your contract says. |
+| Q1 | primer trimestre | Spelled out, which is the norm in formal Spanish. |
+
+## Translator&apos;s notes
+
+1. **Check the dates.** Today is October 26, 2026, so &quot;June 15th&quot; and &quot;September&quot; have both passed if they refer to this year. If they mean 2027, consider adding the year (*15 de junio de 2027*) so there&apos;s no confusion. Also check that &quot;before the price increase takes effect in September&quot; still makes sense.
+2. **Sender&apos;s grammatical gender.** Spanish forces gender in phrases like &quot;Quedo atento/atenta&quot; and &quot;Ejecutivo/Ejecutiva de Cuentas Sénior.&quot; I don&apos;t know Claire&apos;s gender, so I avoided the problem:
+   - The closing &quot;Looking forward to it&quot; became the neutral *Quedo a la espera de su respuesta*.
+   - The job title stays in English, which is common in Colombian tech signatures.
+   - If Claire wants a Spanish title, use **Ejecutiva de Cuentas Sénior** or **Ejecutivo de Cuentas Sénior**, plus *Éxito del Cliente* for &quot;Customer Success.&quot;
+3. **&quot;We should level you up before you hit the ceiling&quot;** became *Convendría pasar a un nivel superior antes de que alcancen el límite*. That&apos;s slightly more measured than the playful English, because the literal version would sound flippant to a Colombian director.
+4. **&quot;40 %&quot;** follows the RAE style with a space before the %. Many Colombian companies write &quot;40%&quot; without the space. Either is fine; just match your other LATAM materials.
+5. **usted vs. ustedes.** I address Andrés as *usted*. Where the offer clearly benefits the whole company (the trial and the locked-in rate), I used the plural *les* (*ofrecerles*, *asegurarles*). That&apos;s natural in Spanish B2B writing and isn&apos;t an inconsistency.
+6. **Subject line:** *le comparto una propuesta* (&quot;I&apos;m sharing a proposal with you&quot;) replaces &quot;quick proposal inside,&quot; which reads awkwardly when translated literally.</pre>
+</div>
+</details>
+<details class="grader">
+<summary><span class="chip chip-pass">✓ pass</span> <span class="grader-name">skill-fired</span>  <span class="badge">plugin-fired indicator</span></summary>
+<div class="grader-body">
+<p class="explanation">Skill called 1x (expected 1..∞)</p>
+
+</div>
+</details></div>
+</div>
+</section><section class="arm">
+<div class="arm-head">
+<span class="arm-label">Baseline (no plugin)</span>
+<span class="meter m-base" aria-hidden="true"><span style="width:91.7%"></span></span>
+<span class="num">91.7%</span>
+<span class="muted num">66.7% of runs perfect</span>
+</div>
+<div class="run">
+<div class="run-head">
+<span class="run-title">Run 1</span>
+<span class="meter m-base" aria-hidden="true"><span style="width:100.0%"></span></span>
+<span class="num">100%</span>
+<span class="muted num">1 turns · $0.12 · 16:15:53 UTC</span>
+</div>
+
+<div class="graders"><details class="grader">
+<summary><span class="chip chip-pass">✓ pass</span> <span class="grader-name">faithful</span>  </summary>
+<div class="grader-body">
+<p class="explanation">judge votes: FAIL PASS PASS</p>
+<div class="kv"><span>Judge votes</span><span class="votes">✗ ✓ ✓</span></div><div class="kv"><span>Evidence (what the judge was shown; for an image, a description of what was sent)</span></div><pre class="evidence">**Asunto:** Su renovación se acerca: una propuesta para conversar
+
+Estimado Andrés:
+
+Espero que se encuentre muy bien. Quise escribirle personalmente porque su contrato con nosotros se renueva el próximo 15 de junio. Por las conversaciones que nuestros equipos han tenido durante el último trimestre, creo que tenemos una buena oportunidad para ampliar nuestra alianza.
+
+Quisiera compartirle tres puntos:
+
+1. En los últimos seis meses, su equipo ha aumentado en un 40 % el volumen de llamadas a la API, muy por encima de lo que cubre su plan actual. Le sugiero que pasemos a un plan superior antes de que lleguen al límite.
+
+2. El nuevo panel de analítica que lanzamos en el primer trimestre no está incluido en su plan actual, pero creo que sería muy útil para su equipo de operaciones. Con gusto le ofrecemos una prueba de cortesía de 90 días como parte de la renovación.
+
+3. También me gustaría mantenerle su tarifa actual por usuario durante dos años más, antes de que entre en vigor el aumento de precios en septiembre.
+
+¿Tendría 20 minutos la próxima semana para revisar estos puntos juntos? Tengo disponibilidad de martes a jueves.
+
+Quedo atenta a su respuesta.
+
+Cordialmente,
+Claire Bennett
+Ejecutiva Sénior de Cuentas, Éxito del Cliente
+
+---
+
+**Notes on the translation:**
+
+- **Formal &quot;usted&quot; throughout.** This is the norm for Colombian business writing, especially with a Director on a contract this size.
+- **&quot;Hi Andrés&quot; is now &quot;Estimado Andrés:&quot;** In Colombian business email, a casual &quot;Hola&quot; would read as too familiar here. Spanish also uses a colon after the greeting, not a comma.
+- **I toned down some idioms.** &quot;Level you up before you hit the ceiling&quot; became &quot;pasemos a un plan superior antes de que lleguen al límite&quot; (move to a higher plan before you reach the limit). &quot;Comp you&quot; became &quot;prueba de cortesía&quot; (complimentary trial). Literal versions would sound like slang or a sales pitch.
+- **&quot;Quedo atenta a su respuesta&quot;** replaces &quot;Looking forward to it.&quot; It&apos;s the standard formal sign-off. &quot;Atenta&quot; is the feminine form, which fits Claire as the sender.
+- **The dates may be out of date.** Today is October 26, 2026, so June 15 and the September price increase only make sense if they refer to 2027. If this is an older draft, check the dates before sending. You could also add the year, e.g. &quot;15 de junio de 2027&quot;, to avoid confusion.</pre>
+</div>
+</details>
+<details class="grader">
+<summary><span class="chip chip-pass">✓ pass</span> <span class="grader-name">natural</span>  </summary>
+<div class="grader-body">
+<p class="explanation">judge votes: PASS PASS PASS</p>
+<div class="kv"><span>Judge votes</span><span class="votes">✓ ✓ ✓</span></div><div class="kv"><span>Evidence (what the judge was shown; for an image, a description of what was sent)</span></div><pre class="evidence">**Asunto:** Su renovación se acerca: una propuesta para conversar
+
+Estimado Andrés:
+
+Espero que se encuentre muy bien. Quise escribirle personalmente porque su contrato con nosotros se renueva el próximo 15 de junio. Por las conversaciones que nuestros equipos han tenido durante el último trimestre, creo que tenemos una buena oportunidad para ampliar nuestra alianza.
+
+Quisiera compartirle tres puntos:
+
+1. En los últimos seis meses, su equipo ha aumentado en un 40 % el volumen de llamadas a la API, muy por encima de lo que cubre su plan actual. Le sugiero que pasemos a un plan superior antes de que lleguen al límite.
+
+2. El nuevo panel de analítica que lanzamos en el primer trimestre no está incluido en su plan actual, pero creo que sería muy útil para su equipo de operaciones. Con gusto le ofrecemos una prueba de cortesía de 90 días como parte de la renovación.
+
+3. También me gustaría mantenerle su tarifa actual por usuario durante dos años más, antes de que entre en vigor el aumento de precios en septiembre.
+
+¿Tendría 20 minutos la próxima semana para revisar estos puntos juntos? Tengo disponibilidad de martes a jueves.
+
+Quedo atenta a su respuesta.
+
+Cordialmente,
+Claire Bennett
+Ejecutiva Sénior de Cuentas, Éxito del Cliente
+
+---
+
+**Notes on the translation:**
+
+- **Formal &quot;usted&quot; throughout.** This is the norm for Colombian business writing, especially with a Director on a contract this size.
+- **&quot;Hi Andrés&quot; is now &quot;Estimado Andrés:&quot;** In Colombian business email, a casual &quot;Hola&quot; would read as too familiar here. Spanish also uses a colon after the greeting, not a comma.
+- **I toned down some idioms.** &quot;Level you up before you hit the ceiling&quot; became &quot;pasemos a un plan superior antes de que lleguen al límite&quot; (move to a higher plan before you reach the limit). &quot;Comp you&quot; became &quot;prueba de cortesía&quot; (complimentary trial). Literal versions would sound like slang or a sales pitch.
+- **&quot;Quedo atenta a su respuesta&quot;** replaces &quot;Looking forward to it.&quot; It&apos;s the standard formal sign-off. &quot;Atenta&quot; is the feminine form, which fits Claire as the sender.
+- **The dates may be out of date.** Today is October 26, 2026, so June 15 and the September price increase only make sense if they refer to 2027. If this is an older draft, check the dates before sending. You could also add the year, e.g. &quot;15 de junio de 2027&quot;, to avoid confusion.</pre>
+</div>
+</details>
+<details class="grader">
+<summary><span class="chip chip-pass">✓ pass</span> <span class="grader-name">register</span>  </summary>
+<div class="grader-body">
+<p class="explanation">judge votes: PASS PASS PASS</p>
+<div class="kv"><span>Judge votes</span><span class="votes">✓ ✓ ✓</span></div><div class="kv"><span>Evidence (what the judge was shown; for an image, a description of what was sent)</span></div><pre class="evidence">**Asunto:** Su renovación se acerca: una propuesta para conversar
+
+Estimado Andrés:
+
+Espero que se encuentre muy bien. Quise escribirle personalmente porque su contrato con nosotros se renueva el próximo 15 de junio. Por las conversaciones que nuestros equipos han tenido durante el último trimestre, creo que tenemos una buena oportunidad para ampliar nuestra alianza.
+
+Quisiera compartirle tres puntos:
+
+1. En los últimos seis meses, su equipo ha aumentado en un 40 % el volumen de llamadas a la API, muy por encima de lo que cubre su plan actual. Le sugiero que pasemos a un plan superior antes de que lleguen al límite.
+
+2. El nuevo panel de analítica que lanzamos en el primer trimestre no está incluido en su plan actual, pero creo que sería muy útil para su equipo de operaciones. Con gusto le ofrecemos una prueba de cortesía de 90 días como parte de la renovación.
+
+3. También me gustaría mantenerle su tarifa actual por usuario durante dos años más, antes de que entre en vigor el aumento de precios en septiembre.
+
+¿Tendría 20 minutos la próxima semana para revisar estos puntos juntos? Tengo disponibilidad de martes a jueves.
+
+Quedo atenta a su respuesta.
+
+Cordialmente,
+Claire Bennett
+Ejecutiva Sénior de Cuentas, Éxito del Cliente
+
+---
+
+**Notes on the translation:**
+
+- **Formal &quot;usted&quot; throughout.** This is the norm for Colombian business writing, especially with a Director on a contract this size.
+- **&quot;Hi Andrés&quot; is now &quot;Estimado Andrés:&quot;** In Colombian business email, a casual &quot;Hola&quot; would read as too familiar here. Spanish also uses a colon after the greeting, not a comma.
+- **I toned down some idioms.** &quot;Level you up before you hit the ceiling&quot; became &quot;pasemos a un plan superior antes de que lleguen al límite&quot; (move to a higher plan before you reach the limit). &quot;Comp you&quot; became &quot;prueba de cortesía&quot; (complimentary trial). Literal versions would sound like slang or a sales pitch.
+- **&quot;Quedo atenta a su respuesta&quot;** replaces &quot;Looking forward to it.&quot; It&apos;s the standard formal sign-off. &quot;Atenta&quot; is the feminine form, which fits Claire as the sender.
+- **The dates may be out of date.** Today is October 26, 2026, so June 15 and the September price increase only make sense if they refer to 2027. If this is an older draft, check the dates before sending. You could also add the year, e.g. &quot;15 de junio de 2027&quot;, to avoid confusion.</pre>
+</div>
+</details>
+<details class="grader">
+<summary><span class="chip chip-pass">✓ pass</span> <span class="grader-name">report</span>  </summary>
+<div class="grader-body">
+<p class="explanation">judge votes: PASS PASS PASS</p>
+<div class="kv"><span>Judge votes</span><span class="votes">✓ ✓ ✓</span></div><div class="kv"><span>Evidence (what the judge was shown; for an image, a description of what was sent)</span></div><pre class="evidence">**Asunto:** Su renovación se acerca: una propuesta para conversar
+
+Estimado Andrés:
+
+Espero que se encuentre muy bien. Quise escribirle personalmente porque su contrato con nosotros se renueva el próximo 15 de junio. Por las conversaciones que nuestros equipos han tenido durante el último trimestre, creo que tenemos una buena oportunidad para ampliar nuestra alianza.
+
+Quisiera compartirle tres puntos:
+
+1. En los últimos seis meses, su equipo ha aumentado en un 40 % el volumen de llamadas a la API, muy por encima de lo que cubre su plan actual. Le sugiero que pasemos a un plan superior antes de que lleguen al límite.
+
+2. El nuevo panel de analítica que lanzamos en el primer trimestre no está incluido en su plan actual, pero creo que sería muy útil para su equipo de operaciones. Con gusto le ofrecemos una prueba de cortesía de 90 días como parte de la renovación.
+
+3. También me gustaría mantenerle su tarifa actual por usuario durante dos años más, antes de que entre en vigor el aumento de precios en septiembre.
+
+¿Tendría 20 minutos la próxima semana para revisar estos puntos juntos? Tengo disponibilidad de martes a jueves.
+
+Quedo atenta a su respuesta.
+
+Cordialmente,
+Claire Bennett
+Ejecutiva Sénior de Cuentas, Éxito del Cliente
+
+---
+
+**Notes on the translation:**
+
+- **Formal &quot;usted&quot; throughout.** This is the norm for Colombian business writing, especially with a Director on a contract this size.
+- **&quot;Hi Andrés&quot; is now &quot;Estimado Andrés:&quot;** In Colombian business email, a casual &quot;Hola&quot; would read as too familiar here. Spanish also uses a colon after the greeting, not a comma.
+- **I toned down some idioms.** &quot;Level you up before you hit the ceiling&quot; became &quot;pasemos a un plan superior antes de que lleguen al límite&quot; (move to a higher plan before you reach the limit). &quot;Comp you&quot; became &quot;prueba de cortesía&quot; (complimentary trial). Literal versions would sound like slang or a sales pitch.
+- **&quot;Quedo atenta a su respuesta&quot;** replaces &quot;Looking forward to it.&quot; It&apos;s the standard formal sign-off. &quot;Atenta&quot; is the feminine form, which fits Claire as the sender.
+- **The dates may be out of date.** Today is October 26, 2026, so June 15 and the September price increase only make sense if they refer to 2027. If this is an older draft, check the dates before sending. You could also add the year, e.g. &quot;15 de junio de 2027&quot;, to avoid confusion.</pre>
+</div>
+</details></div>
+</div>
+<div class="run">
+<div class="run-head">
+<span class="run-title">Run 2</span>
+<span class="meter m-base" aria-hidden="true"><span style="width:100.0%"></span></span>
+<span class="num">100%</span>
+<span class="muted num">1 turns · $0.14 · 16:15:55 UTC</span>
+</div>
+
+<div class="graders"><details class="grader">
+<summary><span class="chip chip-pass">✓ pass</span> <span class="grader-name">faithful</span>  </summary>
+<div class="grader-body">
+<p class="explanation">judge votes: PASS PASS PASS</p>
+<div class="kv"><span>Judge votes</span><span class="votes">✓ ✓ ✓</span></div><div class="kv"><span>Evidence (what the judge was shown; for an image, a description of what was sent)</span></div><pre class="evidence">**Asunto:** Renovación de su contrato: una propuesta para conversar
+
+Estimado Andrés:
+
+Reciba un cordial saludo. Le escribo personalmente porque su contrato con nosotros se renueva el próximo 15 de junio. Por las conversaciones que nuestros equipos han sostenido durante el último trimestre, considero que existe una oportunidad importante para ampliar nuestra alianza.
+
+Quisiera compartirle tres puntos:
+
+1. En los últimos seis meses, su equipo ha incrementado en un 40 % el volumen de llamadas a la API, muy por encima de lo que contempla su plan actual. Sería conveniente pasar a un nivel superior antes de que alcancen el límite.
+
+2. El nuevo tablero de analítica que lanzamos en el primer trimestre no está incluido en su plan, pero le aportaría un valor real a su equipo de operaciones. Con gusto podemos ofrecerle una prueba sin costo por 90 días como parte de la renovación.
+
+3. Me gustaría asegurarle su tarifa actual por usuario por dos años más, antes de que entre en vigor el ajuste de precios en septiembre.
+
+¿Tendría disponibilidad para una reunión de 20 minutos la próxima semana y revisar juntos esta propuesta? Tengo flexibilidad de martes a jueves.
+
+Quedo a la espera de su respuesta.
+
+Cordialmente,
+
+Claire Bennett
+Senior Account Executive, Customer Success
+
+---
+
+**Translation notes:**
+
+- **Tone:** I used the formal &quot;usted&quot; throughout and openers and closings that are standard in Colombian business email (&quot;Reciba un cordial saludo,&quot; &quot;Cordialmente&quot;). I dropped &quot;I hope this email finds you well&quot; because the greeting already does that job.
+- **Softer sales wording:** &quot;Level you up before you hit the ceiling&quot; became &quot;pasar a un nivel superior antes de que alcancen el límite.&quot; &quot;Comp you a trial&quot; became &quot;ofrecerle una prueba sin costo.&quot; &quot;Price increase&quot; became &quot;ajuste de precios,&quot; which sounds less blunt in a formal letter.
+- **No gendered wording for the sender:** Spanish would force a gender on phrases like &quot;quedo atenta/atento&quot; and &quot;estoy segura/seguro,&quot; so I rephrased to avoid them. If Claire has a preference, you could use &quot;Quedo atenta a sus comentarios.&quot;
+- **Job title:** I left it in English, which is common with LATAM enterprise accounts. If you want it in Spanish, it would be &quot;Ejecutiva Sénior de Cuentas, Éxito del Cliente&quot; (or &quot;Ejecutivo&quot; if Claire uses the masculine form).
+- **Check the dates:** Today is October 26, 2026, so &quot;June 15&quot; and &quot;the price increase in September&quot; are already past for this year. If the email is going out now, please confirm those dates before sending.</pre>
+</div>
+</details>
+<details class="grader">
+<summary><span class="chip chip-pass">✓ pass</span> <span class="grader-name">natural</span>  </summary>
+<div class="grader-body">
+<p class="explanation">judge votes: PASS PASS PASS</p>
+<div class="kv"><span>Judge votes</span><span class="votes">✓ ✓ ✓</span></div><div class="kv"><span>Evidence (what the judge was shown; for an image, a description of what was sent)</span></div><pre class="evidence">**Asunto:** Renovación de su contrato: una propuesta para conversar
+
+Estimado Andrés:
+
+Reciba un cordial saludo. Le escribo personalmente porque su contrato con nosotros se renueva el próximo 15 de junio. Por las conversaciones que nuestros equipos han sostenido durante el último trimestre, considero que existe una oportunidad importante para ampliar nuestra alianza.
+
+Quisiera compartirle tres puntos:
+
+1. En los últimos seis meses, su equipo ha incrementado en un 40 % el volumen de llamadas a la API, muy por encima de lo que contempla su plan actual. Sería conveniente pasar a un nivel superior antes de que alcancen el límite.
+
+2. El nuevo tablero de analítica que lanzamos en el primer trimestre no está incluido en su plan, pero le aportaría un valor real a su equipo de operaciones. Con gusto podemos ofrecerle una prueba sin costo por 90 días como parte de la renovación.
+
+3. Me gustaría asegurarle su tarifa actual por usuario por dos años más, antes de que entre en vigor el ajuste de precios en septiembre.
+
+¿Tendría disponibilidad para una reunión de 20 minutos la próxima semana y revisar juntos esta propuesta? Tengo flexibilidad de martes a jueves.
+
+Quedo a la espera de su respuesta.
+
+Cordialmente,
+
+Claire Bennett
+Senior Account Executive, Customer Success
+
+---
+
+**Translation notes:**
+
+- **Tone:** I used the formal &quot;usted&quot; throughout and openers and closings that are standard in Colombian business email (&quot;Reciba un cordial saludo,&quot; &quot;Cordialmente&quot;). I dropped &quot;I hope this email finds you well&quot; because the greeting already does that job.
+- **Softer sales wording:** &quot;Level you up before you hit the ceiling&quot; became &quot;pasar a un nivel superior antes de que alcancen el límite.&quot; &quot;Comp you a trial&quot; became &quot;ofrecerle una prueba sin costo.&quot; &quot;Price increase&quot; became &quot;ajuste de precios,&quot; which sounds less blunt in a formal letter.
+- **No gendered wording for the sender:** Spanish would force a gender on phrases like &quot;quedo atenta/atento&quot; and &quot;estoy segura/seguro,&quot; so I rephrased to avoid them. If Claire has a preference, you could use &quot;Quedo atenta a sus comentarios.&quot;
+- **Job title:** I left it in English, which is common with LATAM enterprise accounts. If you want it in Spanish, it would be &quot;Ejecutiva Sénior de Cuentas, Éxito del Cliente&quot; (or &quot;Ejecutivo&quot; if Claire uses the masculine form).
+- **Check the dates:** Today is October 26, 2026, so &quot;June 15&quot; and &quot;the price increase in September&quot; are already past for this year. If the email is going out now, please confirm those dates before sending.</pre>
+</div>
+</details>
+<details class="grader">
+<summary><span class="chip chip-pass">✓ pass</span> <span class="grader-name">register</span>  </summary>
+<div class="grader-body">
+<p class="explanation">judge votes: PASS PASS PASS</p>
+<div class="kv"><span>Judge votes</span><span class="votes">✓ ✓ ✓</span></div><div class="kv"><span>Evidence (what the judge was shown; for an image, a description of what was sent)</span></div><pre class="evidence">**Asunto:** Renovación de su contrato: una propuesta para conversar
+
+Estimado Andrés:
+
+Reciba un cordial saludo. Le escribo personalmente porque su contrato con nosotros se renueva el próximo 15 de junio. Por las conversaciones que nuestros equipos han sostenido durante el último trimestre, considero que existe una oportunidad importante para ampliar nuestra alianza.
+
+Quisiera compartirle tres puntos:
+
+1. En los últimos seis meses, su equipo ha incrementado en un 40 % el volumen de llamadas a la API, muy por encima de lo que contempla su plan actual. Sería conveniente pasar a un nivel superior antes de que alcancen el límite.
+
+2. El nuevo tablero de analítica que lanzamos en el primer trimestre no está incluido en su plan, pero le aportaría un valor real a su equipo de operaciones. Con gusto podemos ofrecerle una prueba sin costo por 90 días como parte de la renovación.
+
+3. Me gustaría asegurarle su tarifa actual por usuario por dos años más, antes de que entre en vigor el ajuste de precios en septiembre.
+
+¿Tendría disponibilidad para una reunión de 20 minutos la próxima semana y revisar juntos esta propuesta? Tengo flexibilidad de martes a jueves.
+
+Quedo a la espera de su respuesta.
+
+Cordialmente,
+
+Claire Bennett
+Senior Account Executive, Customer Success
+
+---
+
+**Translation notes:**
+
+- **Tone:** I used the formal &quot;usted&quot; throughout and openers and closings that are standard in Colombian business email (&quot;Reciba un cordial saludo,&quot; &quot;Cordialmente&quot;). I dropped &quot;I hope this email finds you well&quot; because the greeting already does that job.
+- **Softer sales wording:** &quot;Level you up before you hit the ceiling&quot; became &quot;pasar a un nivel superior antes de que alcancen el límite.&quot; &quot;Comp you a trial&quot; became &quot;ofrecerle una prueba sin costo.&quot; &quot;Price increase&quot; became &quot;ajuste de precios,&quot; which sounds less blunt in a formal letter.
+- **No gendered wording for the sender:** Spanish would force a gender on phrases like &quot;quedo atenta/atento&quot; and &quot;estoy segura/seguro,&quot; so I rephrased to avoid them. If Claire has a preference, you could use &quot;Quedo atenta a sus comentarios.&quot;
+- **Job title:** I left it in English, which is common with LATAM enterprise accounts. If you want it in Spanish, it would be &quot;Ejecutiva Sénior de Cuentas, Éxito del Cliente&quot; (or &quot;Ejecutivo&quot; if Claire uses the masculine form).
+- **Check the dates:** Today is October 26, 2026, so &quot;June 15&quot; and &quot;the price increase in September&quot; are already past for this year. If the email is going out now, please confirm those dates before sending.</pre>
+</div>
+</details>
+<details class="grader">
+<summary><span class="chip chip-pass">✓ pass</span> <span class="grader-name">report</span>  </summary>
+<div class="grader-body">
+<p class="explanation">judge votes: PASS PASS PASS</p>
+<div class="kv"><span>Judge votes</span><span class="votes">✓ ✓ ✓</span></div><div class="kv"><span>Evidence (what the judge was shown; for an image, a description of what was sent)</span></div><pre class="evidence">**Asunto:** Renovación de su contrato: una propuesta para conversar
+
+Estimado Andrés:
+
+Reciba un cordial saludo. Le escribo personalmente porque su contrato con nosotros se renueva el próximo 15 de junio. Por las conversaciones que nuestros equipos han sostenido durante el último trimestre, considero que existe una oportunidad importante para ampliar nuestra alianza.
+
+Quisiera compartirle tres puntos:
+
+1. En los últimos seis meses, su equipo ha incrementado en un 40 % el volumen de llamadas a la API, muy por encima de lo que contempla su plan actual. Sería conveniente pasar a un nivel superior antes de que alcancen el límite.
+
+2. El nuevo tablero de analítica que lanzamos en el primer trimestre no está incluido en su plan, pero le aportaría un valor real a su equipo de operaciones. Con gusto podemos ofrecerle una prueba sin costo por 90 días como parte de la renovación.
+
+3. Me gustaría asegurarle su tarifa actual por usuario por dos años más, antes de que entre en vigor el ajuste de precios en septiembre.
+
+¿Tendría disponibilidad para una reunión de 20 minutos la próxima semana y revisar juntos esta propuesta? Tengo flexibilidad de martes a jueves.
+
+Quedo a la espera de su respuesta.
+
+Cordialmente,
+
+Claire Bennett
+Senior Account Executive, Customer Success
+
+---
+
+**Translation notes:**
+
+- **Tone:** I used the formal &quot;usted&quot; throughout and openers and closings that are standard in Colombian business email (&quot;Reciba un cordial saludo,&quot; &quot;Cordialmente&quot;). I dropped &quot;I hope this email finds you well&quot; because the greeting already does that job.
+- **Softer sales wording:** &quot;Level you up before you hit the ceiling&quot; became &quot;pasar a un nivel superior antes de que alcancen el límite.&quot; &quot;Comp you a trial&quot; became &quot;ofrecerle una prueba sin costo.&quot; &quot;Price increase&quot; became &quot;ajuste de precios,&quot; which sounds less blunt in a formal letter.
+- **No gendered wording for the sender:** Spanish would force a gender on phrases like &quot;quedo atenta/atento&quot; and &quot;estoy segura/seguro,&quot; so I rephrased to avoid them. If Claire has a preference, you could use &quot;Quedo atenta a sus comentarios.&quot;
+- **Job title:** I left it in English, which is common with LATAM enterprise accounts. If you want it in Spanish, it would be &quot;Ejecutiva Sénior de Cuentas, Éxito del Cliente&quot; (or &quot;Ejecutivo&quot; if Claire uses the masculine form).
+- **Check the dates:** Today is October 26, 2026, so &quot;June 15&quot; and &quot;the price increase in September&quot; are already past for this year. If the email is going out now, please confirm those dates before sending.</pre>
+</div>
+</details></div>
+</div>
+<div class="run">
+<div class="run-head">
+<span class="run-title">Run 3</span>
+<span class="meter m-base" aria-hidden="true"><span style="width:75.0%"></span></span>
+<span class="num">75%</span>
+<span class="muted num">1 turns · $0.13 · 16:16:04 UTC</span>
+</div>
+
+<div class="graders"><details class="grader">
+<summary><span class="chip chip-pass">✓ pass</span> <span class="grader-name">faithful</span>  </summary>
+<div class="grader-body">
+<p class="explanation">judge votes: PASS PASS PASS</p>
+<div class="kv"><span>Judge votes</span><span class="votes">✓ ✓ ✓</span></div><div class="kv"><span>Evidence (what the judge was shown; for an image, a description of what was sent)</span></div><pre class="evidence">**Asunto:** Su renovación se acerca: una propuesta para usted
+
+Apreciado Andrés:
+
+Espero que se encuentre muy bien. Quería escribirle personalmente porque su contrato con nosotros vence el próximo 15 de junio. Por las conversaciones que nuestros equipos han tenido durante el último trimestre, creo que hay una oportunidad importante de ampliar nuestra alianza.
+
+Hay tres puntos que quisiera compartirle:
+
+1. En los últimos seis meses, su equipo ha aumentado en un 40 % el volumen de llamadas a la API, muy por encima de lo que cubre su plan actual. Sería conveniente pasar a un nivel superior antes de que alcancen el límite.
+
+2. El nuevo panel de analítica que lanzamos en el primer trimestre no está incluido en su plan, pero creo que sería muy útil para su equipo de operaciones. Con gusto podemos incluir una prueba sin costo de 90 días como parte de la renovación.
+
+3. Me gustaría mantener su tarifa actual por usuario durante dos años más, antes de que el aumento de precios entre en vigor en septiembre.
+
+¿Tendría 20 minutos la próxima semana para revisar estos puntos juntos? Tengo disponibilidad de martes a jueves.
+
+Quedo atenta a su respuesta.
+
+Cordialmente,
+
+**Claire Bennett**
+Ejecutiva Sénior de Cuentas, Éxito del Cliente
+
+---
+
+**Translation choices:**
+- **Formal &quot;usted&quot;** all the way through. That&apos;s standard in Colombian business writing, especially at Director level.
+- **&quot;Apreciado Andrés:&quot;** and **&quot;Cordialmente,&quot;** are the usual greeting and sign-off in Colombian business email. They&apos;re warmer than &quot;Estimado&quot; and less stiff than &quot;Atentamente.&quot;
+- **&quot;Quedo atenta&quot;** uses the feminine form because Claire is signing. If someone else sends it, check the gender agreement.
+- **Casual phrases were made more formal.** &quot;Level you up&quot; became &quot;pasar a un nivel superior&quot; and &quot;comp you&quot; became &quot;incluir una prueba sin costo.&quot; Literal versions would sound too casual for this relationship.
+- **&quot;40 %&quot; has a space before the % sign**, which is the Spanish style standard. Remove it if your brand style uses &quot;40%.&quot;
+
+**Check the dates before sending:** today is October 26, 2026, so a June 15 renewal and a September price increase are both in the past if they mean this year. If this is a template being reused for next year&apos;s cycle, it&apos;s fine. Otherwise, update the dates in point 3 and the opening before sending.</pre>
+</div>
+</details>
+<details class="grader" open>
+<summary><span class="chip chip-fail">✗ fail</span> <span class="grader-name">natural</span>  </summary>
+<div class="grader-body">
+<p class="explanation">judge votes: FAIL PASS FAIL</p>
+<div class="kv"><span>Judge votes</span><span class="votes">✗ ✓ ✗</span></div><div class="kv"><span>Evidence (what the judge was shown; for an image, a description of what was sent)</span></div><pre class="evidence">**Asunto:** Su renovación se acerca: una propuesta para usted
+
+Apreciado Andrés:
+
+Espero que se encuentre muy bien. Quería escribirle personalmente porque su contrato con nosotros vence el próximo 15 de junio. Por las conversaciones que nuestros equipos han tenido durante el último trimestre, creo que hay una oportunidad importante de ampliar nuestra alianza.
+
+Hay tres puntos que quisiera compartirle:
+
+1. En los últimos seis meses, su equipo ha aumentado en un 40 % el volumen de llamadas a la API, muy por encima de lo que cubre su plan actual. Sería conveniente pasar a un nivel superior antes de que alcancen el límite.
+
+2. El nuevo panel de analítica que lanzamos en el primer trimestre no está incluido en su plan, pero creo que sería muy útil para su equipo de operaciones. Con gusto podemos incluir una prueba sin costo de 90 días como parte de la renovación.
+
+3. Me gustaría mantener su tarifa actual por usuario durante dos años más, antes de que el aumento de precios entre en vigor en septiembre.
+
+¿Tendría 20 minutos la próxima semana para revisar estos puntos juntos? Tengo disponibilidad de martes a jueves.
+
+Quedo atenta a su respuesta.
+
+Cordialmente,
+
+**Claire Bennett**
+Ejecutiva Sénior de Cuentas, Éxito del Cliente
+
+---
+
+**Translation choices:**
+- **Formal &quot;usted&quot;** all the way through. That&apos;s standard in Colombian business writing, especially at Director level.
+- **&quot;Apreciado Andrés:&quot;** and **&quot;Cordialmente,&quot;** are the usual greeting and sign-off in Colombian business email. They&apos;re warmer than &quot;Estimado&quot; and less stiff than &quot;Atentamente.&quot;
+- **&quot;Quedo atenta&quot;** uses the feminine form because Claire is signing. If someone else sends it, check the gender agreement.
+- **Casual phrases were made more formal.** &quot;Level you up&quot; became &quot;pasar a un nivel superior&quot; and &quot;comp you&quot; became &quot;incluir una prueba sin costo.&quot; Literal versions would sound too casual for this relationship.
+- **&quot;40 %&quot; has a space before the % sign**, which is the Spanish style standard. Remove it if your brand style uses &quot;40%.&quot;
+
+**Check the dates before sending:** today is October 26, 2026, so a June 15 renewal and a September price increase are both in the past if they mean this year. If this is a template being reused for next year&apos;s cycle, it&apos;s fine. Otherwise, update the dates in point 3 and the opening before sending.</pre>
+</div>
+</details>
+<details class="grader">
+<summary><span class="chip chip-pass">✓ pass</span> <span class="grader-name">register</span>  </summary>
+<div class="grader-body">
+<p class="explanation">judge votes: PASS PASS PASS</p>
+<div class="kv"><span>Judge votes</span><span class="votes">✓ ✓ ✓</span></div><div class="kv"><span>Evidence (what the judge was shown; for an image, a description of what was sent)</span></div><pre class="evidence">**Asunto:** Su renovación se acerca: una propuesta para usted
+
+Apreciado Andrés:
+
+Espero que se encuentre muy bien. Quería escribirle personalmente porque su contrato con nosotros vence el próximo 15 de junio. Por las conversaciones que nuestros equipos han tenido durante el último trimestre, creo que hay una oportunidad importante de ampliar nuestra alianza.
+
+Hay tres puntos que quisiera compartirle:
+
+1. En los últimos seis meses, su equipo ha aumentado en un 40 % el volumen de llamadas a la API, muy por encima de lo que cubre su plan actual. Sería conveniente pasar a un nivel superior antes de que alcancen el límite.
+
+2. El nuevo panel de analítica que lanzamos en el primer trimestre no está incluido en su plan, pero creo que sería muy útil para su equipo de operaciones. Con gusto podemos incluir una prueba sin costo de 90 días como parte de la renovación.
+
+3. Me gustaría mantener su tarifa actual por usuario durante dos años más, antes de que el aumento de precios entre en vigor en septiembre.
+
+¿Tendría 20 minutos la próxima semana para revisar estos puntos juntos? Tengo disponibilidad de martes a jueves.
+
+Quedo atenta a su respuesta.
+
+Cordialmente,
+
+**Claire Bennett**
+Ejecutiva Sénior de Cuentas, Éxito del Cliente
+
+---
+
+**Translation choices:**
+- **Formal &quot;usted&quot;** all the way through. That&apos;s standard in Colombian business writing, especially at Director level.
+- **&quot;Apreciado Andrés:&quot;** and **&quot;Cordialmente,&quot;** are the usual greeting and sign-off in Colombian business email. They&apos;re warmer than &quot;Estimado&quot; and less stiff than &quot;Atentamente.&quot;
+- **&quot;Quedo atenta&quot;** uses the feminine form because Claire is signing. If someone else sends it, check the gender agreement.
+- **Casual phrases were made more formal.** &quot;Level you up&quot; became &quot;pasar a un nivel superior&quot; and &quot;comp you&quot; became &quot;incluir una prueba sin costo.&quot; Literal versions would sound too casual for this relationship.
+- **&quot;40 %&quot; has a space before the % sign**, which is the Spanish style standard. Remove it if your brand style uses &quot;40%.&quot;
+
+**Check the dates before sending:** today is October 26, 2026, so a June 15 renewal and a September price increase are both in the past if they mean this year. If this is a template being reused for next year&apos;s cycle, it&apos;s fine. Otherwise, update the dates in point 3 and the opening before sending.</pre>
+</div>
+</details>
+<details class="grader">
+<summary><span class="chip chip-pass">✓ pass</span> <span class="grader-name">report</span>  </summary>
+<div class="grader-body">
+<p class="explanation">judge votes: PASS PASS PASS</p>
+<div class="kv"><span>Judge votes</span><span class="votes">✓ ✓ ✓</span></div><div class="kv"><span>Evidence (what the judge was shown; for an image, a description of what was sent)</span></div><pre class="evidence">**Asunto:** Su renovación se acerca: una propuesta para usted
+
+Apreciado Andrés:
+
+Espero que se encuentre muy bien. Quería escribirle personalmente porque su contrato con nosotros vence el próximo 15 de junio. Por las conversaciones que nuestros equipos han tenido durante el último trimestre, creo que hay una oportunidad importante de ampliar nuestra alianza.
+
+Hay tres puntos que quisiera compartirle:
+
+1. En los últimos seis meses, su equipo ha aumentado en un 40 % el volumen de llamadas a la API, muy por encima de lo que cubre su plan actual. Sería conveniente pasar a un nivel superior antes de que alcancen el límite.
+
+2. El nuevo panel de analítica que lanzamos en el primer trimestre no está incluido en su plan, pero creo que sería muy útil para su equipo de operaciones. Con gusto podemos incluir una prueba sin costo de 90 días como parte de la renovación.
+
+3. Me gustaría mantener su tarifa actual por usuario durante dos años más, antes de que el aumento de precios entre en vigor en septiembre.
+
+¿Tendría 20 minutos la próxima semana para revisar estos puntos juntos? Tengo disponibilidad de martes a jueves.
+
+Quedo atenta a su respuesta.
+
+Cordialmente,
+
+**Claire Bennett**
+Ejecutiva Sénior de Cuentas, Éxito del Cliente
+
+---
+
+**Translation choices:**
+- **Formal &quot;usted&quot;** all the way through. That&apos;s standard in Colombian business writing, especially at Director level.
+- **&quot;Apreciado Andrés:&quot;** and **&quot;Cordialmente,&quot;** are the usual greeting and sign-off in Colombian business email. They&apos;re warmer than &quot;Estimado&quot; and less stiff than &quot;Atentamente.&quot;
+- **&quot;Quedo atenta&quot;** uses the feminine form because Claire is signing. If someone else sends it, check the gender agreement.
+- **Casual phrases were made more formal.** &quot;Level you up&quot; became &quot;pasar a un nivel superior&quot; and &quot;comp you&quot; became &quot;incluir una prueba sin costo.&quot; Literal versions would sound too casual for this relationship.
+- **&quot;40 %&quot; has a space before the % sign**, which is the Spanish style standard. Remove it if your brand style uses &quot;40%.&quot;
+
+**Check the dates before sending:** today is October 26, 2026, so a June 15 renewal and a September price increase are both in the past if they mean this year. If this is a template being reused for next year&apos;s cycle, it&apos;s fine. Otherwise, update the dates in point 3 and the opening before sending.</pre>
+</div>
+</details></div>
+</div>
+</section>
+</details>
+<details class="section" open>
+<summary>Prompt</summary>
+<div class="md"><p>Translate this customer success email to Spanish for our LATAM enterprise customers. The recipient is a Director of Operations at a logistics company in Colombia. We have a formal relationship — they're a paying customer renewing a $180K annual contract.</p>
+<hr>
+<p>Subject: Your renewal is coming up — quick proposal inside</p>
+<p>Hi Andrés,</p>
+<p>I hope this email finds you well. I wanted to reach out personally because your contract with us is up for renewal on June 15th, and based on the conversations our team has had with yours over the past quarter, I think there's a meaningful opportunity to expand the partnership.</p>
+<p>Three things on my mind:</p>
+<ol>
+<li><p>Your team has driven a 40% increase in API call volume over the last six months — well beyond what your current tier supports. We should level you up before you hit the ceiling.</p>
+</li>
+<li><p>The new analytics dashboard we shipped in Q1 isn't available on your plan, but your operations team would get real value from it. Happy to comp you a 90-day trial as part of the renewal.</p>
+</li>
+<li><p>I'd like to lock in your current per-seat rate for another two years before the price increase takes effect in September.</p>
+</li>
+</ol>
+<p>Could you spare 20 minutes next week to walk through this together? I'm flexible Tuesday through Thursday.</p>
+<p>Looking forward to it.</p>
+<p>Best,
+Claire Bennett
+Senior Account Executive, Customer Success</p>
+</div>
+</details>
+<details class="section" open>
+<summary>Graders — what "good" means for this case</summary>
+<div class="grader-def">
+<div class="grader-def-head"><span class="grader-name">faithful</span><span class="badge">llm</span></div>
+<div class="md"><p>Judge only the translated email itself (subject, body and signature). Ignore the register analysis, glossary and translator's notes around it. Adapting the greeting, the sign-off or an idiom to formal Spanish is expected and is not a change of fact.</p>
+<p>PASS if every one of these facts appears in the translated email with the same meaning: renewal on June 15; a 40% increase in API call volume over six months, beyond the current tier; the Q1 analytics dashboard is not on their plan; an offer of a free 90-day trial as part of the renewal; locking the current per-seat rate for two more years before a September price increase; a request for 20 minutes next week, Tuesday through Thursday; signed by Claire Bennett with her title.
+FAIL if any of these facts is missing, has a different number or date, or a new commitment, price or deadline appears that the source does not contain.</p>
+</div>
+</div>
+<div class="grader-def">
+<div class="grader-def-head"><span class="grader-name">natural</span><span class="badge">llm</span></div>
+<div class="md"><p>PASS if the opening, the idioms ("level you up", "hit the ceiling", "comp you a 90-day trial", "lock in your rate") and the sign-off read as natural Latin American business Spanish rather than literal calques, and the closing is formal (for example Atentamente, Cordialmente, Saludos cordiales). FAIL if any idiom is rendered word for word, or the closing is casual.</p>
+</div>
+</div>
+<div class="grader-def">
+<div class="grader-def-head"><span class="grader-name">register</span><span class="badge">llm</span></div>
+<div class="md"><p>PASS if the whole email uses usted consistently, which suits a formal B2B relationship with a director. FAIL if any tú form appears.</p>
+</div>
+</div>
+<div class="grader-def">
+<div class="grader-def-head"><span class="grader-name">report</span><span class="badge">llm</span></div>
+<div class="md"><p>PASS if the reply includes a short register analysis and translator's notes that explain at least two specific choices (for example the register, a transcreated idiom, how the date or title was handled). FAIL if there are no notes.</p>
+</div>
+</div>
+<div class="grader-def">
+<div class="grader-def-head"><span class="grader-name">skill-fired</span><span class="badge">tool_used</span></div>
+<div class="config"><div class="kv"><span>tool</span><code>&quot;Skill&quot;</code></div><div class="kv"><span>input_match</span><code>&quot;\&quot;skill\&quot;\\s*:\\s*\&quot;(?:[\\w-]+:)?translator-en-es\&quot;&quot;</code></div></div>
+</div>
+</details>
+</article>
+<footer>Generated by <code>claude plugin eval</code> · schema v1 · scores are not comparable across different suites</footer>
+</div>
+<script>
+document.addEventListener('DOMContentLoaded',function(){
+  var bar=document.querySelector('.toolbar');
+  if(!bar)return;
+  bar.addEventListener('click',function(e){
+    var b=e.target&&e.target.closest('button');
+    if(!b)return;
+    var open=b.dataset.act==='expand';
+    document.querySelectorAll('details.section, details.grader').forEach(function(d){d.open=open});
+  });
+});
+// Collapsed details vanish from print/PDF; these pages are share artifacts.
+window.addEventListener('beforeprint',function(){
+  document.querySelectorAll('details').forEach(function(d){
+    if(!d.open){d.dataset.printOpened='1';d.open=true}
+  });
+});
+window.addEventListener('afterprint',function(){
+  document.querySelectorAll('details[data-print-opened]').forEach(function(d){
+    d.open=false;delete d.dataset.printOpened;
+  });
+});
+</script>
+</body>
+</html>

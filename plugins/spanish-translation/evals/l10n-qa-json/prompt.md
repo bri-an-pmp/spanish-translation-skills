@@ -1,6 +1,6 @@
 ---
 max_turns: 12
-allowed_tools: [Read, Glob, Grep, Skill]
+allowed_tools: [Read, Glob, Grep, Skill, Bash]
 ---
 
 Can you QA our Spanish strings before release? Buttons must fit 25 characters. B2B app, formal voice.
