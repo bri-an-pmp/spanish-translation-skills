@@ -1,0 +1,25 @@
+{
+  "button": {
+    "save": "Save changes",
+    "invite": "Invite teammate",
+    "delete": "Delete"
+  },
+  "confirm": {
+    "delete_title": "Delete {{count}} integrations?",
+    "delete_body": "This will permanently remove {{count}} integrations from <b>{{workspace}}</b>."
+  },
+  "error": {
+    "rate_limit": "You've hit the rate limit. Try again in {seconds} seconds.",
+    "upload": "Upload failed: %1$s (code %2$d)"
+  },
+  "toast": {
+    "invite_sent": "Invite sent to {email}!",
+    "welcome": "Welcome back, {name}."
+  },
+  "help": {
+    "docs": "Read the docs at https://docs.example.com/start",
+    "webhook": "Your endpoint must respond within 5 seconds."
+  },
+  "items": "{count, plural, one {# item} other {# items}}",
+  "settings": { "title": "Settings" }
+}

@@ -1,0 +1,7 @@
+<resources>
+    <string name="greeting">Hola %1$s, todo listo.</string>
+    <plurals name="songs">
+        <item quantity="one">%d canción</item>
+        <item quantity="other">%d canciones</item>
+    </plurals>
+</resources>

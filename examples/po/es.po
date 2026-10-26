@@ -1,0 +1,22 @@
+msgid ""
+msgstr ""
+"Language: es\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: src/app.c:10
+msgid "Hello, %s!"
+msgstr "¡Hola, %s!"
+
+#: src/app.c:12
+#, fuzzy
+msgid "You have %d new message"
+msgid_plural "You have %d new messages"
+msgstr[0] "Tiene %d mensaje nuevo"
+msgstr[1] "Tiene mensajes nuevos"
+
+msgctxt "menu"
+msgid "Open"
+msgstr ""
+
+msgid "Are you sure?"
+msgstr "Está seguro?"

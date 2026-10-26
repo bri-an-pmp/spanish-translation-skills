@@ -1,0 +1,25 @@
+{
+  "button": {
+    "save": "Guardar cambios",
+    "invite": "Invitar a un compañero de equipo",
+    "delete": "Delete"
+  },
+  "confirm": {
+    "delete_title": "¿Eliminar {{count}} integraciones?",
+    "delete_body": "Esto eliminará permanentemente {{cuenta}} integraciones de {{workspace}}."
+  },
+  "error": {
+    "rate_limit": "Alcanzó el límite de uso. Vuelva a intentarlo en {seconds} segundos.",
+    "upload": "Error al cargar: %1$s (código %2$s)"
+  },
+  "toast": {
+    "invite_sent": "Invitación enviada a {email}!",
+    "welcome": "Te damos la bienvenida de nuevo, {name}."
+  },
+  "help": {
+    "docs": "Consulte la documentación en https://docs.example.com/es/start",
+    "webhook": "Su endpoint debe responder en un máximo de 50 segundos."
+  },
+  "items": "{count, plural, one {# elemento}}",
+  "extra_key": "Sobrante"
+}

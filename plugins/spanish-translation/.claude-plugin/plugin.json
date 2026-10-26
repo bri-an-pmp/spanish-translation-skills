@@ -1,0 +1,11 @@
+{
+  "name": "spanish-translation",
+  "displayName": "Spanish Translation",
+  "description": "Professional English ↔ Spanish translation, RAE-grounded Spanish review, and QA for localized software strings.",
+  "version": "1.0.0",
+  "author": { "name": "Brian Athey", "url": "https://brianathey.studio" },
+  "homepage": "https://github.com/bri-an-pmp/spanish-translation-skills",
+  "repository": "https://github.com/bri-an-pmp/spanish-translation-skills",
+  "license": "MIT",
+  "keywords": ["spanish", "translation", "localization", "rae", "xliff", "gettext", "i18n"]
+}

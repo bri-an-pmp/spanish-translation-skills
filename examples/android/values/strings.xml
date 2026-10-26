@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name" translatable="false">Tide</string>
+    <string name="greeting">Hello <b>%1$s</b>, you\'re all set.</string>
+    <plurals name="songs">
+        <item quantity="one">%d song</item>
+        <item quantity="other">%d songs</item>
+    </plurals>
+</resources>

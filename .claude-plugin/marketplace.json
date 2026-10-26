@@ -1,0 +1,14 @@
+{
+  "name": "spanish-translation-skills",
+  "description": "English ↔ Spanish translation, RAE review and localization QA skills for Claude, by a working translator.",
+  "owner": { "name": "Brian Athey", "url": "https://brianathey.studio" },
+  "plugins": [
+    {
+      "name": "spanish-translation",
+      "source": "./plugins/spanish-translation",
+      "description": "Three skills: translator-en-es (professional EN↔ES translation with a translator's report), rae-spanish (checks Spanish against the RAE) and l10n-qa (catches broken placeholders, tags and length problems in app strings).",
+      "category": "translation",
+      "tags": ["spanish", "translation", "localization", "l10n", "i18n", "rae", "qa"]
+    }
+  ]
+}

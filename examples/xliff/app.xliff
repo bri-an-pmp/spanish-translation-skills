@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+  <file source-language="en" target-language="es" datatype="plaintext" original="app">
+    <body>
+      <trans-unit id="cta">
+        <source>Click <g id="1">here</g> to start your <x id="2"/> trial.</source>
+        <target state="translated">Haga clic <g id="1">aquí</g> para comenzar su prueba.</target>
+      </trans-unit>
+      <trans-unit id="meeting">
+        <source>The meeting moved to Monday.</source>
+        <target state="needs-review-translation">La reunión pasó al Lunes.</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
