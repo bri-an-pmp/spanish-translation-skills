@@ -1,3 +1,5 @@
+<img src="plugins/spanish-translation/.claude-plugin/icon.png" alt="" width="96" align="right">
+
 # Spanish Translation Skills for Claude
 
 Three skills that make Claude work like a careful English ↔ Spanish translator: it translates with a translator's report, checks Spanish against the RAE, and catches the localization bugs that break apps.
